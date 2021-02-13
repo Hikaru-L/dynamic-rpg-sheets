@@ -1,6 +1,6 @@
 # Dynamic Character Sheets
 
-Dynamic Character Sheets is a web application, integrated with a backend service, for creating, saving and editing RPG Character sheets, in order to provide a better playing experience for less popular systems that don't have better player support for online sessions.
+Dynamic Character Sheets is a web application, integrated with a backend service, for creating, saving and editing RPG Character sheets, in order to provide a better playing experience for less popular systems that don't have good player support for online sessions.
 
 ## Stack
 This repository contains both the frontend and backend projects.
