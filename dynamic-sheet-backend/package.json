@@ -1,0 +1,21 @@
+{
+  "name": "dynamic-sheet-backend",
+  "version": "1.0.0",
+  "description": "service for saving created sheets and sessions",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "tsc": "tsc",
+    "start": "yarn run tsc && node server/server.js"
+  },
+  "author": "Hikaru",
+  "license": "ISC",
+  "dependencies": {
+    "@types/cors": "^2.8.9",
+    "@types/express": "^4.17.11",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "typescript": "^4.1.5"
+  }
+}
