@@ -1,29 +1,42 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
+import React from "react";
+import styled, { ThemeProvider } from "styled-components";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { CharacterSheetPage } from "./pages/CharacterSheetPage";
+import { theme } from "./config/theme";
 
-const Background = styled.div`
+const AppWrapper = styled.div`
   display: flex;
   height: 100%;
-  width:100%;
-  justify-content: flex-end;
-  align-items: center;
-`
-const Pivot = styled.div`
-  position: relative
-`
-const LAYERS = 4
+  width: 100%;
+`;
+
 const App: React.FC = () => {
-  const [state, setState] = useState(true);
 
   return (
     <div className="App">
       <header className="App-header">
-      <Background>
-      </Background>
-  <button style={{marginLeft: '600px'}} onClick={()=> setState(!state)}>{state ? 'ON' : 'OFF'}</button>
       </header>
+      <Router>
+        <ThemeProvider theme={theme}>
+        <AppWrapper>
+          {/* A <Switch> looks through its children <Route>s and
+            renders the first one that matches the current URL. */}
+          <Switch>
+            <Route path="/character/:characterId">
+              <CharacterSheetPage/>
+            </Route>
+            <Route path="/new-character">
+              <p>teste</p>
+            </Route>
+            <Route path="/">
+              <></>
+            </Route>
+          </Switch>
+        </AppWrapper>
+        </ThemeProvider>
+      </Router>
     </div>
   );
-}
+};
 
 export default App;
