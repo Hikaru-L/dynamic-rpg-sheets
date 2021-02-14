@@ -6,24 +6,22 @@ import { theme } from "./config/theme";
 
 const AppWrapper = styled.div`
   display: flex;
-  height: 100%;
-  width: 100%;
+  flex: 1;
+  background-color: black;
+  min-height: 100vh;
 `;
 
 const App: React.FC = () => {
-
   return (
     <div className="App">
-      <header className="App-header">
-      </header>
-      <Router>
-        <ThemeProvider theme={theme}>
-        <AppWrapper>
+      <header>
+      <AppWrapper>
+        <Router>
           {/* A <Switch> looks through its children <Route>s and
             renders the first one that matches the current URL. */}
           <Switch>
             <Route path="/character/:characterId">
-              <CharacterSheetPage/>
+              <CharacterSheetPage />
             </Route>
             <Route path="/new-character">
               <p>teste</p>
@@ -32,9 +30,9 @@ const App: React.FC = () => {
               <></>
             </Route>
           </Switch>
-        </AppWrapper>
-        </ThemeProvider>
-      </Router>
+        </Router>
+      </AppWrapper>
+      </header>
     </div>
   );
 };

@@ -2,6 +2,7 @@
   "compilerOptions": {
     "target": "es5",
     "lib": [
+      "es6",
       "dom",
       "dom.iterable",
       "esnext"
@@ -22,8 +23,10 @@
     "experimentalDecorators": true,
     "noUnusedLocals": false,
     "strictPropertyInitialization": false,
-    "noImplicitAny": false,
-    "noFallthroughCasesInSwitch": true
+    "noImplicitAny": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitThis": true,
+    "strictNullChecks": true
   },
   "include": [
     "src"
