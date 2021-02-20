@@ -7,7 +7,7 @@ import { theme } from "./config/theme";
 const AppWrapper = styled.div`
   display: flex;
   flex: 1;
-  background-color: black;
+  background-color: #315c4a;
   min-height: 100vh;
 `;
 

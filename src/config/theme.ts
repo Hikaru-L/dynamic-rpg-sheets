@@ -2,7 +2,7 @@ import { createMuiTheme } from "@material-ui/core";
 
 export const theme = createMuiTheme({
   typography: {
-    fontFamily: "Newsreader",
+    fontFamily: "Montserrat",
     h1: {
       fontWeight: 400,
       fontSize: 34,

@@ -19,7 +19,7 @@ export const CharacterSheetPage: React.FC = () => {
   return (
     <Wrapper>
       <ThemeProvider theme={theme}>
-        <Box>
+        <Box display="flex" borderRadius="4px" border="1px solid black" padding="16px">
           <Typography variant={TypographyVariant.H4}>{characterId}</Typography>
         </Box>
       </ThemeProvider>
