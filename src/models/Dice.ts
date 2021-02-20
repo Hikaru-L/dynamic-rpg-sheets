@@ -16,6 +16,10 @@ export class DicePool {
     this.diceTypes = types
     this.amount = amount
   }
+
+  public roll() {
+    //roll dice
+  }
 }
 
 export enum DiceType {

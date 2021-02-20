@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent } from "react";
+import React, { useState, ChangeEvent, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Typography, Box, ThemeProvider, Grid } from "@material-ui/core";
 import { TypographyVariant } from "../utils/TypographyVariant";
@@ -8,6 +8,7 @@ import { customThemeProps } from "../config/customThemeProps";
 import { CharacterInfo } from "./CharacterInfo";
 import { COCInvestigator } from "../models/COCInvestigator";
 import { CharacterBaseStats } from "./CharacterBaseStats";
+import { MoveRateCalculator, DamageBonusAndBuildCalculator } from "../utils/COCCalculators";
 
 const Wrapper = styled.div`
   display: flex;
@@ -20,6 +21,32 @@ const Wrapper = styled.div`
 export const CharacterSheetPage: React.FC = () => {
   const { characterId } = useParams();
   const [character, setCharacter] = useState<COCInvestigator>(new COCInvestigator())
+
+  const calculateSpecialStats = () => {
+    const {db: damageBonus, build} = DamageBonusAndBuildCalculator(character.stats.baseStats.strength, character.stats.baseStats.size)
+    setCharacter({
+      ...character,
+      stats: {
+        ...character.stats,
+        specialStats: {
+          ...character.stats.specialStats,
+          sanityPoints: character.stats.baseStats.power,
+          magicPoints: Math.floor(character.stats.baseStats.power/5),
+          health: Math.floor((character.stats.baseStats.size + character.stats.baseStats.constitution)/10),
+          currentHealth: Math.floor((character.stats.baseStats.size + character.stats.baseStats.constitution)/10),
+          moveRate: MoveRateCalculator(character.stats.baseStats.strength, character.stats.baseStats.dexterity, character.stats.baseStats.size, character.info.age),
+          damageBonus,
+          build,
+        }
+      }
+    })
+  }
+
+  useEffect(() => {
+    calculateSpecialStats()
+  }, [])
+ 
+
   const setCharacterInfo = (propName: string) => (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setCharacter({
       ...character,
@@ -31,26 +58,30 @@ export const CharacterSheetPage: React.FC = () => {
   }
 
   const setCharacterBaseStats = (propName: string) => (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setCharacter({
-      ...character,
-      stats: {
-        ...character.stats,
-        baseStats: {
-          ...character.stats.baseStats,
-          [propName]: Number(event.target.value),
+    const newStat = Number(event.target.value)
+    if(newStat || event.target.value === '') {
+      setCharacter({
+        ...character,
+        stats: {
+          ...character.stats,
+          baseStats: {
+            ...character.stats.baseStats,
+            [propName]: (newStat > 100 ? 100 : newStat),
+          }
         }
-      }
-    })
+      })
+      calculateSpecialStats()
+    }
   }
 
   return (
     <Wrapper>
       <ThemeProvider theme={theme}>
         <Grid container spacing={2}>
-          <Grid item md={6}>
+          <Grid item md={5}>
             <CharacterInfo info={character.info} setInfo={setCharacterInfo}/>
           </Grid>
-          <Grid item md={3}>
+          <Grid item md={4}>
             <CharacterBaseStats stats={character.stats} setStats={setCharacterBaseStats}/>
           </Grid>
           <Grid item md={3}>

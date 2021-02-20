@@ -1,6 +1,8 @@
 import React, { ChangeEvent } from "react";
-import { Box, Grid, TextField } from "@material-ui/core";
+import { Box, Grid, TextField, Typography } from "@material-ui/core";
 import { InvestigatorStats } from "../models/COCInvestigator";
+import { TypographyVariant } from "../utils/TypographyVariant";
+import { customThemeProps } from "../config/customThemeProps";
 
 export interface CharacterBaseStatsProps {
   stats: InvestigatorStats;
@@ -8,6 +10,44 @@ export interface CharacterBaseStatsProps {
     propName: string
   ) => (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
 }
+const statNames = [
+  {
+    label: "STR",
+    id: "strength",
+  },
+  {
+    label: "DEX",
+    id: "dexterity",
+  },
+  {
+    label: "INT",
+    id: "intelligence",
+  },
+  {
+    label: "CON",
+    id: "constitution",
+  },
+  {
+    label: "APP",
+    id: "appearance",
+  },
+  {
+    label: "POW",
+    id: "power",
+  },
+  {
+    label: "SIZ",
+    id: "size",
+  },
+  {
+    label: "SAN",
+    id: "sanity",
+  },
+  {
+    label: "EDU",
+    id: "education",
+  },
+];
 export const CharacterBaseStats: React.FC<CharacterBaseStatsProps> = ({
   stats,
   setStats,
@@ -21,69 +61,56 @@ export const CharacterBaseStats: React.FC<CharacterBaseStatsProps> = ({
       padding="16px"
     >
       <Grid container spacing={1}>
-        <Grid item md={4}>
-          <TextField
-            label="STR"
-            value={stats.baseStats.strength}
-            onChange={setStats("strength")}
-          />
-        </Grid>
-        <Grid item md={4}>
-          <TextField
-            label="DEX"
-            value={stats.baseStats.dexterity}
-            onChange={setStats("dexterity")}
-          />
-        </Grid>
-        <Grid item md={4}>
-          <TextField
-            label="INT"
-            value={stats.baseStats.intelligence}
-            onChange={setStats("intelligence")}
-          />
-        </Grid>
-        <Grid item md={4}>
-          <TextField
-            label="CON"
-            value={stats.baseStats.constitution}
-            onChange={setStats("constitution")}
-          />
-        </Grid>
-        <Grid item md={4}>
-          <TextField
-            label="APP"
-            value={stats.baseStats.appearance}
-            onChange={setStats("appearance")}
-          />
-        </Grid>
-        <Grid item md={4}>
-          <TextField
-            label="POW"
-            value={stats.baseStats.power}
-            onChange={setStats("power")}
-          />
-        </Grid>
-        <Grid item md={4}>
-          <TextField
-            label="SIZ"
-            value={stats.baseStats.size}
-            onChange={setStats("size")}
-          />
-        </Grid>
-        <Grid item md={4}>
-          <TextField
-            label="SAN"
-            value={stats.baseStats.sanity}
-            onChange={setStats("sanity")}
-          />
-        </Grid>
-        <Grid item md={4}>
-          <TextField
-            label="EDU"
-            value={stats.baseStats.education}
-            onChange={setStats("education")}
-          />
-        </Grid>
+        {statNames.map((statName) => {
+          return (
+            <Grid item md={4}>
+              <Box display="flex">
+                <Box display="flex" mr="4px">
+                  <TextField
+                    label={statName.label}
+                    //@ts-ignore
+                    value={stats.baseStats[statName.id]}
+                    onChange={setStats(statName.id)}
+                    variant={"outlined"}
+                  />
+                </Box>
+                <Box display="flex" flexDirection="column">
+                  <Box
+                    border={`1px solid ${customThemeProps.colors.waterGreen}`}
+                    borderRadius="4px"
+                    px="1px"
+                    mb="2px"
+                    display="flex"
+                    justifyContent="center"
+                    alignItems="center"
+                  >
+                    <Typography variant={TypographyVariant.BODY1}>
+                      {
+                        // @ts-ignore
+                        Math.floor(stats.baseStats[statName.id] / 2)
+                      }
+                    </Typography>
+                  </Box>
+                  <Box
+                    border={`1px solid ${customThemeProps.colors.waterGreen}`}
+                    borderRadius="4px"
+                    px="1px"
+                    display="flex"
+                    justifyContent="center"
+                    alignItems="center"
+                  >
+                    <Typography variant={TypographyVariant.BODY1}>
+                      {
+                        // @ts-ignore
+                        Math.floor(stats.baseStats[statName.id] / 5)
+                      }
+                    </Typography>
+                  </Box>
+                </Box>
+              </Box>
+            </Grid>
+          );
+        })}
       </Grid>
     </Box>
   );

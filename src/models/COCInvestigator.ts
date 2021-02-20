@@ -1,4 +1,4 @@
-import { DicePool } from "./Dice"
+import { DicePool, Dice } from "./Dice"
 
 export class COCInvestigator {
   info: InvestigatorBaseInfo
@@ -27,13 +27,14 @@ export class COCInvestigator {
         education: 50,
       },
       specialStats: {
-        mythosKnowledge: 0,
         luck: 50,
         damageBonus: 1,
         magicPoints: 5,
-        healthPoints: 10,
+        health: 10,
+        currentHealth: 10,
         sanityPoints: 50,
         build: 0,
+        moveRate: 7,
       }
     }
     this.skills = {
@@ -112,14 +113,14 @@ export interface InvestigatorStats {
     education: number
   }
   specialStats: {
-    mythosKnowledge: number
     luck: number
-    damageBonus: number
+    damageBonus: number | Dice
     magicPoints: number
-    healthPoints: number
+    health: number
+    currentHealth: number
     sanityPoints: number
-    //TODO make enum for build
     build: number
+    moveRate: number
   }
 }
 
