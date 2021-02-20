@@ -1,13 +1,12 @@
 import React from "react";
-import styled, { ThemeProvider } from "styled-components";
+import styled from "styled-components";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { CharacterSheetPage } from "./pages/CharacterSheetPage";
-import { theme } from "./config/theme";
 
 const AppWrapper = styled.div`
   display: flex;
   flex: 1;
-  background-color: #315c4a;
+  background-color: white;
   min-height: 100vh;
 `;
 
