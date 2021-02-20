@@ -78,4 +78,9 @@ export const theme = createMuiTheme({
       letterSpacing: 1.4,
     },
   },
+  palette: {
+    primary: {
+      main: '#315c4a',
+    }
+  }
 });
