@@ -6,6 +6,13 @@ export class Dice {
     this.diceType = type
     this.amount = amount || 1
   }
+
+  public roll() {
+    //roll dice
+  }
+  public toString() {
+    return `${this.amount}${this.diceType}`
+  }
 }
 
 export class DicePool {
@@ -20,6 +27,7 @@ export class DicePool {
   public roll() {
     //roll dice
   }
+
 }
 
 export enum DiceType {

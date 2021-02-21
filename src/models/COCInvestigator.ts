@@ -35,6 +35,7 @@ export class COCInvestigator {
         sanityPoints: 50,
         build: 0,
         moveRate: 7,
+        currentMagic: 5,
       }
     }
     this.skills = {
@@ -101,29 +102,33 @@ export interface InvestigatorBaseInfo {
 }
 
 export interface InvestigatorStats {
-  baseStats: {
-    strength: number
-    dexterity: number
-    intelligence: number
-    constitution: number
-    appearance: number
-    power: number
-    size: number
-    sanity: number
-    education: number
-  }
-  specialStats: {
-    luck: number
-    damageBonus: number | Dice
-    magicPoints: number
-    health: number
-    currentHealth: number
-    sanityPoints: number
-    build: number
-    moveRate: number
-  }
+  baseStats: InvestigatorBaseStats
+  specialStats: InvestigatorSpecialStats
 }
 
+export interface InvestigatorSpecialStats {
+  luck: number
+  damageBonus: number | Dice
+  magicPoints: number
+  currentMagic: number
+  health: number
+  currentHealth: number
+  sanityPoints: number
+  build: number
+  moveRate: number
+}
+
+export interface InvestigatorBaseStats {
+  strength: number
+  dexterity: number
+  intelligence: number
+  constitution: number
+  appearance: number
+  power: number
+  size: number
+  sanity: number
+  education: number
+}
 export interface InvestigatorSkills {
   specialSkills?: {
     [key: string]: number
