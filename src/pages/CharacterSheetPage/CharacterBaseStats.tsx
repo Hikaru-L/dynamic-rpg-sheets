@@ -4,9 +4,9 @@ import {
   InvestigatorStats,
   InvestigatorBaseStats,
   InvestigatorSpecialStats,
-} from "../models/COCInvestigator";
-import { TypographyVariant } from "../utils/TypographyVariant";
-import { customThemeProps } from "../config/customThemeProps";
+} from "../../models/COCInvestigator/COCInvestigator";
+import { TypographyVariant } from "../../utils/TypographyVariant";
+import { customThemeProps } from "../../config/customThemeProps";
 
 export interface CharacterBaseStatsProps {
   baseStats: InvestigatorBaseStats;

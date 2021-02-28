@@ -1,7 +1,7 @@
 import React, { ChangeEvent } from "react";
 import { Box, TextField, Typography } from "@material-ui/core";
-import { InvestigatorBaseInfo } from "../models/COCInvestigator";
-import { TypographyVariant } from "../utils/TypographyVariant";
+import { InvestigatorBaseInfo } from "../../models/COCInvestigator/COCInvestigator";
+import { TypographyVariant } from "../../utils/TypographyVariant";
 
 export interface CharacterInfoProps {
   info: InvestigatorBaseInfo;

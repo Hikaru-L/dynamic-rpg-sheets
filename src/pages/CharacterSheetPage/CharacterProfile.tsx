@@ -2,8 +2,8 @@ import React, { ChangeEvent } from "react";
 import { Box, Grid, TextField, Typography } from "@material-ui/core";
 import {
   InvestigatorSpecialStats,
-} from "../models/COCInvestigator";
-import { TypographyVariant } from "../utils/TypographyVariant";
+} from "../../models/COCInvestigator/COCInvestigator";
+import { TypographyVariant } from "../../utils/TypographyVariant";
 
 export interface CharacterProfileProps {
   specialStats: InvestigatorSpecialStats;
@@ -35,6 +35,7 @@ export const CharacterProfile: React.FC<CharacterProfileProps> = ({
     <Box
     display="flex"
     flexDirection="column"
+    flex={1}
     >
       <Typography variant={TypographyVariant.H4}>{"Vital Stats"}</Typography>
       <Box

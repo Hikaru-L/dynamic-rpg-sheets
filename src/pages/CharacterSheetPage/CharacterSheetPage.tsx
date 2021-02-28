@@ -1,7 +1,7 @@
 import React, { useState, ChangeEvent, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Box, ThemeProvider } from "@material-ui/core";
-import { theme } from "../config/theme";
+import { theme } from "../../config/theme";
 import styled from "styled-components";
 import { CharacterInfo } from "./CharacterInfo";
 import { CharacterProfile } from "./CharacterProfile";
@@ -9,12 +9,13 @@ import {
   COCInvestigator,
   InvestigatorSpecialStats,
   InvestigatorBaseStats,
-} from "../models/COCInvestigator";
+} from "../../models/COCInvestigator/COCInvestigator";
 import { CharacterBaseStats } from "./CharacterBaseStats";
 import {
   MoveRateCalculator,
   DamageBonusAndBuildCalculator,
-} from "../utils/COCCalculators";
+} from "../../utils/COCCalculators";
+import { CharacterOccupationAndSkills } from "./CharacterOccupationAndSkills";
 
 const Wrapper = styled.div`
   display: flex;
@@ -35,6 +36,16 @@ export const CharacterSheetPage: React.FC = () => {
   const [specialStats, setSpecialStats] = useState<InvestigatorSpecialStats>(
     character.stats.specialStats
   );
+  const [occupation, setOccupation] = useState<string>("");
+
+  const setCharacterOccupation = (
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const name = event.target.value;
+    if (name || event.target.value === "") {
+      setOccupation(name);
+    }
+  };
 
   const calculateSpecialStats = () => {
     const { db: damageBonus, build } = DamageBonusAndBuildCalculator(
@@ -46,15 +57,9 @@ export const CharacterSheetPage: React.FC = () => {
       sanityPoints: baseStats.power,
       magicPoints: Math.floor(baseStats.power / 5),
       health: Math.floor(
-        (character.stats.baseStats.size +
-          baseStats.constitution) /
-          10
+        (character.stats.baseStats.size + baseStats.constitution) / 10
       ),
-      currentHealth: Math.floor(
-        (baseStats.size +
-          baseStats.constitution) /
-          10
-      ),
+      currentHealth: Math.floor((baseStats.size + baseStats.constitution) / 10),
       moveRate: MoveRateCalculator(
         baseStats.strength,
         baseStats.dexterity,
@@ -111,7 +116,7 @@ export const CharacterSheetPage: React.FC = () => {
     <Wrapper>
       <ThemeProvider theme={theme}>
         <Box display="flex" flex="1">
-        <Box display="flex" flex="5" mr={2}>
+          <Box display="flex" flex="5" mr={2}>
             <CharacterInfo info={character.info} setInfo={setCharacterInfo} />
           </Box>
           <Box display="flex" flex="4" mr={2}>
@@ -122,8 +127,17 @@ export const CharacterSheetPage: React.FC = () => {
             />
           </Box>
           <Box display="flex" flex="3">
-            <CharacterProfile specialStats={specialStats} setStats={setCharacterSpecialStats}/>
+            <CharacterProfile
+              specialStats={specialStats}
+              setStats={setCharacterSpecialStats}
+            />
           </Box>
+        </Box>
+        <Box display="flex" mt={2}>
+          <CharacterOccupationAndSkills
+            occupationName={occupation}
+            setOccupationName={setCharacterOccupation}
+          />
         </Box>
       </ThemeProvider>
     </Wrapper>

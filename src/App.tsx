@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import { CharacterSheetPage } from "./pages/CharacterSheetPage";
+import { CharacterSheetPage } from "./pages/CharacterSheetPage/CharacterSheetPage";
 
 const AppWrapper = styled.div`
   display: flex;
