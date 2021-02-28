@@ -1,4 +1,4 @@
-import { DicePool, Dice } from "./Dice"
+import { DicePool, Dice } from "../Dice"
 
 export class COCInvestigator {
   info: InvestigatorBaseInfo
