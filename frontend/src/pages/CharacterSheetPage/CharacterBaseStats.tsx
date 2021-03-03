@@ -118,6 +118,7 @@ export const CharacterBaseStats: React.FC<CharacterBaseStatsProps> = ({
                         display="flex"
                         justifyContent="center"
                         alignItems="center"
+                        width="24px"
                       >
                         <Typography variant={TypographyVariant.BODY1}>
                           {
@@ -133,6 +134,7 @@ export const CharacterBaseStats: React.FC<CharacterBaseStatsProps> = ({
                         display="flex"
                         justifyContent="center"
                         alignItems="center"
+                        width="24px"
                       >
                         <Typography variant={TypographyVariant.BODY1}>
                           {

@@ -1,15 +1,15 @@
 import { InvestigatorSkillTypes } from "./InvestigatorSkills";
 
 export enum InvestigatorStatTypes {
-  education = 'edu',
-  strength = 'str',
-  dexterity = 'dex',
-  intelligence = 'int',
-  constituition = 'con',
+  education = 'education',
+  strength = 'strength',
+  dexterity = 'dexterity',
+  intelligence = 'intelligence',
+  constituition = 'constituition',
   appearance = 'appearance',
   power = 'power',
-  size = 'siz',
-  sanity = 'san',
+  size = 'size',
+  sanity = 'sanity',
 }
 
 export interface InvestigatorOccupation {
