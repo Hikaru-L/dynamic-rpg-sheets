@@ -23,6 +23,7 @@ export enum InvestigatorSkillTypes {
   intimidate = 'intimidate',
   jump = 'jump',
   law = 'law',
+  language = 'language',
   libraryUse = 'libraryUse',
   listen = 'listen',
   locksmith = 'locksmith',
