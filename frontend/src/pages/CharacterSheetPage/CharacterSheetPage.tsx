@@ -137,7 +137,7 @@ export const CharacterSheetPage: React.FC = () => {
     } else if (newSkill < 1) {
       setSkills({
         ...skills,
-        [propName]: 1,
+        [propName]: 0,
       });
     } else if(newSkill > 100) {
       setSkills({
