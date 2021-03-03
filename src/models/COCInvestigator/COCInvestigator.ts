@@ -54,19 +54,15 @@ export class COCInvestigator {
       electricRepair: 10,
       fastTalk: 5,
       fighting: 25,
-      firearms: {
-        handgun: 25,
-        rifle: 20,
-        shotgun: 20,
-        automatic: 10,
-      },
+      firearmsHandgun: 25,
+      firearmsShotgun: 20,
+      firearmsRifle: 20,
+      firearmsAutomatic: 10,
       firstAid: 30,
       history: 5,
       intimidate: 15,
       jump: 20,
-      language: {
-        english: 50
-      },
+      language: 50,
       law: 5,
       libraryUse: 20,
       listen: 25,
@@ -148,19 +144,15 @@ export interface InvestigatorSkills {
   electricRepair: number
   fastTalk: number
   fighting: number
-  firearms: {
-    handgun: number
-    rifle: number
-    shotgun: number
-    automatic: number
-  }
+  firearmsHandgun: number
+  firearmsShotgun: number
+  firearmsRifle: number
+  firearmsAutomatic: number
   firstAid: number
   history: number
   intimidate: number
   jump: number
-  language: {
-    [key: string]: number
-  }
+  language: number
   law: number
   libraryUse: number
   listen: number

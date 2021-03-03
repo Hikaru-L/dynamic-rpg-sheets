@@ -81,6 +81,13 @@ export const theme = createMuiTheme({
   palette: {
     primary: {
       main: '#315c4a',
-    }
-  }
+    },
+    secondary: {
+      main: '#984393',
+    },
+    text: {
+      primary: 'black',
+      secondary: '#315c4a',
+    },
+  },
 });

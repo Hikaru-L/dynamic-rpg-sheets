@@ -9,6 +9,7 @@ import {
   COCInvestigator,
   InvestigatorSpecialStats,
   InvestigatorBaseStats,
+  InvestigatorSkills,
 } from "../../models/COCInvestigator/COCInvestigator";
 import { CharacterBaseStats } from "./CharacterBaseStats";
 import {
@@ -24,6 +25,7 @@ const Wrapper = styled.div`
   padding: 88px;
   background-color: white;
 `;
+const baselineInvestigator = new COCInvestigator()
 
 export const CharacterSheetPage: React.FC = () => {
   const { characterId } = useParams();
@@ -36,14 +38,25 @@ export const CharacterSheetPage: React.FC = () => {
   const [specialStats, setSpecialStats] = useState<InvestigatorSpecialStats>(
     character.stats.specialStats
   );
+  const [skills, setSkills] = useState<InvestigatorSkills>(
+    character.skills
+  )
   const [occupation, setOccupation] = useState<string>("");
 
   const setCharacterOccupation = (
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const name = event.target.value;
-    if (name || event.target.value === "") {
+    if (name) {
       setOccupation(name);
+      setCharacter({
+        ...character,
+        info: {
+          ...character.info,
+          occupation: name,
+        },
+      });
+      setSkills(baselineInvestigator.skills)
     }
   };
 
@@ -74,7 +87,7 @@ export const CharacterSheetPage: React.FC = () => {
 
   useEffect(() => {
     calculateSpecialStats();
-  }, [baseStats, character]);
+  }, [baseStats]);
 
   const setCharacterInfo = (propName: string) => (
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -112,6 +125,28 @@ export const CharacterSheetPage: React.FC = () => {
     }
   };
 
+  const setCharacterSkill = (propName: string) => (
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const newSkill = Number(event.target.value);
+    if (newSkill > 0 && newSkill < 101) {
+      setSkills({
+        ...skills,
+        [propName]: newSkill,
+      });
+    } else if (newSkill < 1) {
+      setSkills({
+        ...skills,
+        [propName]: 1,
+      });
+    } else if(newSkill > 100) {
+      setSkills({
+        ...skills,
+        [propName]: 100,
+      });
+    }
+  };
+
   return (
     <Wrapper>
       <ThemeProvider theme={theme}>
@@ -137,6 +172,9 @@ export const CharacterSheetPage: React.FC = () => {
           <CharacterOccupationAndSkills
             occupationName={occupation}
             setOccupationName={setCharacterOccupation}
+            skills={skills}
+            setSkill={setCharacterSkill}
+            stats={baseStats}
           />
         </Box>
       </ThemeProvider>
