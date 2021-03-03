@@ -32,13 +32,7 @@ export interface CharacterOccupationAndSkillsProps {
   ) => (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
 }
 
-const interpersonalSkills = [
-  "appraise",
-  "charm",
-  "fastTalk",
-  "intimidate",
-  "persuade",
-];
+const interpersonalSkills = ["charm", "fastTalk", "intimidate", "persuade"];
 const shouldHighlightSkill = (
   skill: string,
   occupation?: InvestigatorOccupation
@@ -52,7 +46,7 @@ const shouldHighlightSkill = (
     if (occupation.skills.indexOf(skill as InvestigatorSkillTypes) >= 0) {
       return true;
     }
-    if(skill === InvestigatorSkillTypes.creditRating) {
+    if (skill === InvestigatorSkillTypes.creditRating) {
       return true;
     }
     return false;
@@ -60,13 +54,56 @@ const shouldHighlightSkill = (
     return false;
   }
 };
+const getOccupationSkillsString = (occupation: InvestigatorOccupation) => {
+  let st = occupation.skills.join(", ");
+  if (occupation.interpersonalSkills > 0) {
+    if (occupation.interpersonalSkills === 1) {
+      st = st.concat(
+        ", 1 interpersonal skill (Charm, Fast Talk, Intimidate or Persuade)"
+      );
+    } else {
+      st = st.concat(
+        `, ${occupation.interpersonalSkills} interpersonal skills (Charm, Fast Talk, Intimidate or Persuade)`
+      );
+    }
+  }
+  if (occupation.extraSkillTypes > 0) {
+    if (occupation.extraSkillTypes === 1) {
+      st = st.concat(", any 1 other skill as personal or era specialty");
+    } else {
+      st = st.concat(
+        `, any ${occupation.extraSkillTypes} other skills as personal or era specialties`
+      );
+    }
+  }
+  return st;
+};
+
+const getOccupationSkillPointsString = (occupation: InvestigatorOccupation) => {
+  let st = occupation.skillPoints.reduce(
+    (acc: string, current) =>
+      acc.concat(`${current.type} x ${current.multiplier} + `),
+    ""
+  );
+  if (
+    occupation.optionalSkillPoints &&
+    occupation.optionalSkillPoints.length > 1
+  ) {
+    st = st.concat(
+      `( ${occupation.optionalSkillPoints[0].type} x ${occupation.optionalSkillPoints[0].multiplier} or ${occupation.optionalSkillPoints[1].type} x ${occupation.optionalSkillPoints[1].multiplier} )`
+    );
+  } else {
+    st = st.slice(0, st.length - 2);
+  }
+  return st;
+};
 
 export const CharacterOccupationAndSkills: React.FC<CharacterOccupationAndSkillsProps> = ({
   occupationName,
   setOccupationName,
   skills,
   stats,
-  setSkill
+  setSkill,
 }) => {
   const [occupation, setOccupation] = useState<InvestigatorOccupation>();
 
@@ -181,11 +218,7 @@ export const CharacterOccupationAndSkills: React.FC<CharacterOccupationAndSkills
                   mb={1}
                 >
                   <Typography variant={TypographyVariant.BODY2}>
-                    {occupation?.skillPoints.reduce(
-                      (acc: string, current) =>
-                        acc.concat(`${current.type} x ${current.multiplier} `),
-                      ""
-                    )}
+                    {occupation ? getOccupationSkillPointsString(occupation) : ''}
                   </Typography>
                 </Box>
               </Box>
@@ -236,7 +269,7 @@ export const CharacterOccupationAndSkills: React.FC<CharacterOccupationAndSkills
                   padding="8px"
                 >
                   <Typography variant={TypographyVariant.BODY2}>
-                    {occupation?.skills.join(", ")}
+                    {occupation ? getOccupationSkillsString(occupation) : ""}
                   </Typography>
                 </Box>
               </Box>
@@ -270,82 +303,84 @@ export const CharacterOccupationAndSkills: React.FC<CharacterOccupationAndSkills
             <Typography
               variant={TypographyVariant.H6}
             >{`Remaining Personal Interest points: ${remainingHobbiePoints}`}</Typography>
-                        <Box my={2}>
-
-            <Typography variant={TypographyVariant.OVERLINE} color={"error"} >
-              {
-                "Occupation-specific skills will be highlighted blue and allocated points will automatically be subtracted from total."
-              }
-            </Typography>
-            <div>
-            <Typography variant={TypographyVariant.OVERLINE} color={"error"} >
-              {
-              "Occupations with interpersonal skills will highlight those, so keep in mind the upper limit of skills of that type your occupation can have."
-              }
-            </Typography>
-            </div>
+            <Box my={2}>
+              <Typography variant={TypographyVariant.OVERLINE} color={"error"}>
+                {
+                  "Occupation-specific skills will be highlighted blue and allocated points will automatically be subtracted from total."
+                }
+              </Typography>
+              <div>
+                <Typography
+                  variant={TypographyVariant.OVERLINE}
+                  color={"error"}
+                >
+                  {
+                    "Occupations with interpersonal skills will highlight those, so keep in mind the upper limit of skills of that type your occupation can have."
+                  }
+                </Typography>
+              </div>
             </Box>
           </Box>
           <Box width="90%">
-          <Grid container>
-            {Object.keys(skills).map((skill) => {
-              return (
-                <Grid item md={2} key={skill}>
-                  <Box m={1} display="flex">
-                    <Box display="flex" mr="4px">
-                      <TextField
-                        label={skill}
-                        //@ts-ignore
-                        value={skills[skill]}
-                        variant={"filled"}
-                        classes={
-                          shouldHighlightSkill(skill, occupation)
-                            ? { root: classes.root }
-                            : {}
-                        }
-                        onChange={setSkill(skill)}
-                      />
-                    </Box>
-                    <Box display="flex" flexDirection="column">
-                      <Box
-                        border={`1px solid ${customThemeProps.colors.waterGreen}`}
-                        borderRadius="4px"
-                        px="1px"
-                        mb="2px"
-                        display="flex"
-                        justifyContent="center"
-                        alignItems="center"
-                        width="24px"
-                      >
-                        <Typography variant={TypographyVariant.BODY1}>
-                          {
-                            // @ts-ignore
-                            Math.floor(skills[skill] / 2)
+            <Grid container>
+              {Object.keys(skills).map((skill) => {
+                return (
+                  <Grid item md={2} key={skill}>
+                    <Box m={1} display="flex">
+                      <Box display="flex" mr="4px">
+                        <TextField
+                          label={skill}
+                          //@ts-ignore
+                          value={skills[skill]}
+                          variant={"filled"}
+                          classes={
+                            shouldHighlightSkill(skill, occupation)
+                              ? { root: classes.root }
+                              : {}
                           }
-                        </Typography>
+                          onChange={setSkill(skill)}
+                        />
                       </Box>
-                      <Box
-                        border={`1px solid ${customThemeProps.colors.waterGreen}`}
-                        borderRadius="4px"
-                        px="1px"
-                        display="flex"
-                        justifyContent="center"
-                        alignItems="center"
-                        width="24px"
-                      >
-                        <Typography variant={TypographyVariant.BODY1}>
-                          {
-                            // @ts-ignore
-                            Math.floor(skills[skill] / 5)
-                          }
-                        </Typography>
+                      <Box display="flex" flexDirection="column">
+                        <Box
+                          border={`1px solid ${customThemeProps.colors.waterGreen}`}
+                          borderRadius="4px"
+                          px="1px"
+                          mb="2px"
+                          display="flex"
+                          justifyContent="center"
+                          alignItems="center"
+                          width="24px"
+                        >
+                          <Typography variant={TypographyVariant.BODY1}>
+                            {
+                              // @ts-ignore
+                              Math.floor(skills[skill] / 2)
+                            }
+                          </Typography>
+                        </Box>
+                        <Box
+                          border={`1px solid ${customThemeProps.colors.waterGreen}`}
+                          borderRadius="4px"
+                          px="1px"
+                          display="flex"
+                          justifyContent="center"
+                          alignItems="center"
+                          width="24px"
+                        >
+                          <Typography variant={TypographyVariant.BODY1}>
+                            {
+                              // @ts-ignore
+                              Math.floor(skills[skill] / 5)
+                            }
+                          </Typography>
+                        </Box>
                       </Box>
                     </Box>
-                  </Box>
-                </Grid>
-              );
-            })}
-          </Grid>
+                  </Grid>
+                );
+              })}
+            </Grid>
           </Box>
         </Box>
       </Box>
