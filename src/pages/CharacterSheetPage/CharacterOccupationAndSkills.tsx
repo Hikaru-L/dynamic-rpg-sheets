@@ -18,7 +18,10 @@ import {
   InvestigatorOccupation,
   occupations,
 } from "../../models/COCInvestigator/InvestigatorOccupations";
-import { InvestigatorSkillTypes } from "../../models/COCInvestigator/InvestigatorSkills";
+import {
+  InvestigatorSkillTypes,
+  InvestigatorSkillTypeNames,
+} from "../../models/COCInvestigator/InvestigatorSkills";
 
 export interface CharacterOccupationAndSkillsProps {
   occupationName: string;
@@ -55,7 +58,10 @@ const shouldHighlightSkill = (
   }
 };
 const getOccupationSkillsString = (occupation: InvestigatorOccupation) => {
-  let st = occupation.skills.join(", ");
+  const skillNames = occupation.skills.map(
+    (skill) => InvestigatorSkillTypeNames[skill]
+  );
+  let st = skillNames.join(", ");
   if (occupation.interpersonalSkills > 0) {
     if (occupation.interpersonalSkills === 1) {
       st = st.concat(
@@ -218,7 +224,9 @@ export const CharacterOccupationAndSkills: React.FC<CharacterOccupationAndSkills
                   mb={1}
                 >
                   <Typography variant={TypographyVariant.BODY2}>
-                    {occupation ? getOccupationSkillPointsString(occupation) : ''}
+                    {occupation
+                      ? getOccupationSkillPointsString(occupation)
+                      : ""}
                   </Typography>
                 </Box>
               </Box>
@@ -321,67 +329,66 @@ export const CharacterOccupationAndSkills: React.FC<CharacterOccupationAndSkills
               </div>
             </Box>
           </Box>
-          <Box width="90%">
-            <Grid container>
-              {Object.keys(skills).map((skill) => {
-                return (
-                  <Grid item md={2} key={skill}>
-                    <Box m={1} display="flex">
-                      <Box display="flex" mr="4px">
-                        <TextField
-                          label={skill}
-                          //@ts-ignore
-                          value={skills[skill]}
-                          variant={"filled"}
-                          classes={
-                            shouldHighlightSkill(skill, occupation)
-                              ? { root: classes.root }
-                              : {}
+          <Grid container>
+            {Object.keys(skills).map((skill) => {
+              return (
+                <Grid item md={2} key={skill}>
+                  <Box m={1} display="flex">
+                    <Box display="flex" mr="4px">
+                      <TextField
+                        //@ts-ignore
+                        label={InvestigatorSkillTypeNames[skill]}
+                        //@ts-ignore
+                        value={skills[skill]}
+                        variant={"filled"}
+                        classes={
+                          shouldHighlightSkill(skill, occupation)
+                            ? { root: classes.root }
+                            : {}
+                        }
+                        onChange={setSkill(skill)}
+                      />
+                    </Box>
+                    <Box display="flex" flexDirection="column">
+                      <Box
+                        border={`1px solid ${customThemeProps.colors.waterGreen}`}
+                        borderRadius="4px"
+                        px="1px"
+                        mb="2px"
+                        display="flex"
+                        justifyContent="center"
+                        alignItems="center"
+                        width="24px"
+                      >
+                        <Typography variant={TypographyVariant.BODY1}>
+                          {
+                            // @ts-ignore
+                            Math.floor(skills[skill] / 2)
                           }
-                          onChange={setSkill(skill)}
-                        />
+                        </Typography>
                       </Box>
-                      <Box display="flex" flexDirection="column">
-                        <Box
-                          border={`1px solid ${customThemeProps.colors.waterGreen}`}
-                          borderRadius="4px"
-                          px="1px"
-                          mb="2px"
-                          display="flex"
-                          justifyContent="center"
-                          alignItems="center"
-                          width="24px"
-                        >
-                          <Typography variant={TypographyVariant.BODY1}>
-                            {
-                              // @ts-ignore
-                              Math.floor(skills[skill] / 2)
-                            }
-                          </Typography>
-                        </Box>
-                        <Box
-                          border={`1px solid ${customThemeProps.colors.waterGreen}`}
-                          borderRadius="4px"
-                          px="1px"
-                          display="flex"
-                          justifyContent="center"
-                          alignItems="center"
-                          width="24px"
-                        >
-                          <Typography variant={TypographyVariant.BODY1}>
-                            {
-                              // @ts-ignore
-                              Math.floor(skills[skill] / 5)
-                            }
-                          </Typography>
-                        </Box>
+                      <Box
+                        border={`1px solid ${customThemeProps.colors.waterGreen}`}
+                        borderRadius="4px"
+                        px="1px"
+                        display="flex"
+                        justifyContent="center"
+                        alignItems="center"
+                        width="24px"
+                      >
+                        <Typography variant={TypographyVariant.BODY1}>
+                          {
+                            // @ts-ignore
+                            Math.floor(skills[skill] / 5)
+                          }
+                        </Typography>
                       </Box>
                     </Box>
-                  </Grid>
-                );
-              })}
-            </Grid>
-          </Box>
+                  </Box>
+                </Grid>
+              );
+            })}
+          </Grid>
         </Box>
       </Box>
     </Box>
