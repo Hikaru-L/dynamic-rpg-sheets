@@ -34,6 +34,7 @@ export interface InvestigatorOccupation {
 }
 
 // TODO separate types of pilot, driver, laborer, photographer
+// TODO make two endpoints: one for fetching all occupation names and one for getting a specific occupation
 export const occupationNames: string[] = [
   'Accountant',
   'Acrobat',
@@ -124,6 +125,7 @@ export const occupations: InvestigatorOccupation[] = [
       InvestigatorSkillTypes.libraryUse,
       InvestigatorSkillTypes.persuade,
       InvestigatorSkillTypes.spotHidden,
+      InvestigatorSkillTypes.creditRating,
     ],
     extraSkillTypes: 2,
     interpersonalSkills: 0,
@@ -157,6 +159,7 @@ export const occupations: InvestigatorOccupation[] = [
       InvestigatorSkillTypes.throw,
       InvestigatorSkillTypes.spotHidden,
       InvestigatorSkillTypes.swim,
+      InvestigatorSkillTypes.creditRating,
     ],
     extraSkillTypes: 2,
     interpersonalSkills: 0,
@@ -189,6 +192,7 @@ export const occupations: InvestigatorOccupation[] = [
       InvestigatorSkillTypes.disguise,
       InvestigatorSkillTypes.driveAuto,
       InvestigatorSkillTypes.psychology,
+      InvestigatorSkillTypes.creditRating,
     ],
     extraSkillTypes: 2,
     interpersonalSkills: 2,
@@ -221,6 +225,7 @@ export const occupations: InvestigatorOccupation[] = [
       InvestigatorSkillTypes.fighting,
       InvestigatorSkillTypes.history,
       InvestigatorSkillTypes.psychology,
+      InvestigatorSkillTypes.creditRating,
     ],
     extraSkillTypes: 1,
     interpersonalSkills: 2,
@@ -262,6 +267,7 @@ export const occupations: InvestigatorOccupation[] = [
       InvestigatorSkillTypes.psychology,
       InvestigatorSkillTypes.stealth,
       InvestigatorSkillTypes.track,
+      InvestigatorSkillTypes.creditRating,
     ],
     extraSkillTypes: 0,
     interpersonalSkills: 1,
@@ -291,6 +297,7 @@ export const occupations: InvestigatorOccupation[] = [
       InvestigatorSkillTypes.psychoanalysis,
       InvestigatorSkillTypes.psychology,
       InvestigatorSkillTypes.science,
+      InvestigatorSkillTypes.creditRating,
     ],
     extraSkillTypes: 0,
     interpersonalSkills: 0,
@@ -331,6 +338,7 @@ export const occupations: InvestigatorOccupation[] = [
       InvestigatorSkillTypes.science,
       InvestigatorSkillTypes.stealth,
       InvestigatorSkillTypes.track,
+      InvestigatorSkillTypes.creditRating,
     ],
     extraSkillTypes: 1,
     interpersonalSkills: 0,
@@ -360,7 +368,8 @@ export const occupations: InvestigatorOccupation[] = [
       InvestigatorSkillTypes.history,
       InvestigatorSkillTypes.libraryUse,
       InvestigatorSkillTypes.language,
-      InvestigatorSkillTypes.spotHidden
+      InvestigatorSkillTypes.spotHidden,
+      InvestigatorSkillTypes.creditRating,
     ],
     extraSkillTypes: 1,
     interpersonalSkills: 1,
@@ -390,6 +399,7 @@ export const occupations: InvestigatorOccupation[] = [
       InvestigatorSkillTypes.history,
       InvestigatorSkillTypes.libraryUse,
       InvestigatorSkillTypes.navigate,
+      InvestigatorSkillTypes.creditRating,
     ],
     extraSkillTypes: 0,
     interpersonalSkills: 2,

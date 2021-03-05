@@ -125,28 +125,16 @@ export const CharacterSheetPage: React.FC = () => {
     }
   };
 
-  const setCharacterSkill = (propName: string) => (
-    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const newSkill = Number(event.target.value);
-    if (newSkill > 0 && newSkill < 101) {
+  const setCharacterSkill = (propName: string, newSkill: number) => {
       setSkills({
         ...skills,
         [propName]: newSkill,
       });
-    } else if (newSkill < 1) {
-      setSkills({
-        ...skills,
-        [propName]: 0,
-      });
-    } else if(newSkill > 100) {
-      setSkills({
-        ...skills,
-        [propName]: 100,
-      });
-    }
   };
 
+  const resetCharacterSkills = () => {
+    setSkills(baselineInvestigator.skills)
+  }
   return (
     <Wrapper>
       <ThemeProvider theme={theme}>
@@ -175,6 +163,7 @@ export const CharacterSheetPage: React.FC = () => {
             skills={skills}
             setSkill={setCharacterSkill}
             stats={baseStats}
+            resetSkills={resetCharacterSkills}
           />
         </Box>
       </ThemeProvider>

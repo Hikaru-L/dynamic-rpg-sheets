@@ -1,5 +1,7 @@
 import { createMuiTheme } from "@material-ui/core";
 
+
+//TODO dark mode background: #111213 text: #688a81
 export const theme = createMuiTheme({
   typography: {
     fontFamily: "Montserrat",

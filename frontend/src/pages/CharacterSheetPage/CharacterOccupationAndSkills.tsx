@@ -10,6 +10,7 @@ import {
 import {
   InvestigatorBaseStats,
   InvestigatorSkills,
+  COCInvestigator,
 } from "../../models/COCInvestigator/COCInvestigator";
 import { TypographyVariant } from "../../utils/TypographyVariant";
 import { customThemeProps } from "../../config/customThemeProps";
@@ -30,12 +31,14 @@ export interface CharacterOccupationAndSkillsProps {
   ) => void;
   skills: InvestigatorSkills;
   stats: InvestigatorBaseStats;
-  setSkill: (
-    propName: string
-  ) => (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+  setSkill: (propName: string, newSkill: number) => void;
+  resetSkills: () => void;
 }
+const baselineInvestigator = new COCInvestigator();
+let skillsOldState = baselineInvestigator.skills;
 
 const interpersonalSkills = ["charm", "fastTalk", "intimidate", "persuade"];
+
 const shouldHighlightSkill = (
   skill: string,
   occupation?: InvestigatorOccupation
@@ -104,12 +107,25 @@ const getOccupationSkillPointsString = (occupation: InvestigatorOccupation) => {
   return st;
 };
 
+const getTotalOccupationSkillPoints = (occupation: InvestigatorOccupation | undefined, stats: InvestigatorBaseStats) => {
+  if (occupation) {
+    return occupation.skillPoints.reduce((acc, skill) => {
+      //@ts-ignore
+      const points = stats[skill.type] * skill.multiplier;
+      return acc + points;
+    }, 0);
+  } else {
+    return 0;
+  }
+}
+
 export const CharacterOccupationAndSkills: React.FC<CharacterOccupationAndSkillsProps> = ({
   occupationName,
   setOccupationName,
   skills,
   stats,
   setSkill,
+  resetSkills,
 }) => {
   const [occupation, setOccupation] = useState<InvestigatorOccupation>();
 
@@ -132,21 +148,87 @@ export const CharacterOccupationAndSkills: React.FC<CharacterOccupationAndSkills
   const [remainingHobbiePoints, setRemainingHobbiePoints] = useState(
     stats.intelligence * 2
   );
-  const totalOccupationSkillPoints = useMemo(() => {
-    if (occupation) {
-      return occupation.skillPoints.reduce((acc, skill) => {
-        //@ts-ignore
-        const points = stats[skill.type] * skill.multiplier;
-        return acc + points;
-      }, 0);
-    } else {
-      return 0;
-    }
-  }, [occupation, stats]);
-  const [occupationSkillPoints, setOccupationSkillPoints] = useState(0);
+  const [totalOccupationSkillPoints, setTotalOccupationSkillPoints] = useState(0);
+
+  const [
+    remainingOccupationSkillPoints,
+    setRemainingOccupationSkillPoints,
+  ] = useState(0);
+
+  // reset skills and remaining points when changes occupation
+
   useEffect(() => {
-    setOccupationSkillPoints(totalOccupationSkillPoints);
-  }, [totalOccupationSkillPoints]);
+    const newTotal = getTotalOccupationSkillPoints(occupation, stats)
+    setRemainingOccupationSkillPoints(newTotal);
+    setTotalOccupationSkillPoints(newTotal)
+    setRemainingHobbiePoints(stats.intelligence * 2);
+    resetSkills();
+  }, [occupation, stats]);
+
+  //TODO fix logic here, theres some weird shenanigans going on
+  const handleChangeSkill = (skillName: string) => (
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    let newSkillValue = Number(event.target.value);
+    if (newSkillValue < 1) {
+      newSkillValue = 0;
+    } else if (newSkillValue > 100) {
+      newSkillValue = 100;
+    }
+    if (occupation) {
+      const oldSkillValue = skillsOldState[skillName as InvestigatorSkillTypes];
+      const pointVariation = newSkillValue - oldSkillValue;
+
+      //TODO add interpersonal skill treatment
+      if (pointVariation < 0) {
+        //add to remaining points
+        if (
+          occupation.skills.includes(skillName as InvestigatorSkillTypes) &&
+          remainingOccupationSkillPoints < totalOccupationSkillPoints
+        ) {
+          if (
+            Math.abs(pointVariation) <=
+            totalOccupationSkillPoints - remainingOccupationSkillPoints
+          ) {
+            setRemainingOccupationSkillPoints(
+              remainingOccupationSkillPoints - pointVariation
+            );
+          } else {
+            setRemainingOccupationSkillPoints(totalOccupationSkillPoints);
+            setRemainingHobbiePoints(
+              remainingHobbiePoints +
+                (Math.abs(pointVariation) -
+                  (totalOccupationSkillPoints - remainingOccupationSkillPoints))
+            );
+          }
+        } else {
+          setRemainingHobbiePoints(remainingHobbiePoints - pointVariation);
+        }
+      } else {
+        //detract from remaining points
+        if (
+          occupation.skills.includes(skillName as InvestigatorSkillTypes) &&
+          remainingOccupationSkillPoints > 0
+        ) {
+          if (pointVariation <= remainingOccupationSkillPoints) {
+            setRemainingOccupationSkillPoints(
+              remainingOccupationSkillPoints - pointVariation
+            );
+          } else {
+            setRemainingHobbiePoints(
+              remainingHobbiePoints -
+                (pointVariation - remainingOccupationSkillPoints)
+            );
+            setRemainingOccupationSkillPoints(0);
+          }
+        } else {
+          setRemainingHobbiePoints(remainingHobbiePoints - pointVariation);
+        }
+      }
+    }
+    skillsOldState[skillName as InvestigatorSkillTypes] = newSkillValue;
+    setSkill(skillName, newSkillValue);
+  };
 
   // ===================================================================================================
 
@@ -302,7 +384,7 @@ export const CharacterOccupationAndSkills: React.FC<CharacterOccupationAndSkills
             <Typography
               variant={TypographyVariant.H6}
               color="textSecondary"
-            >{`Remaining Occupation points: ${occupationSkillPoints}`}</Typography>
+            >{`Remaining Occupation points: ${remainingOccupationSkillPoints}`}</Typography>
             <Typography
               variant={TypographyVariant.H6}
             >{`Total Personal Interest points: ${
@@ -346,7 +428,7 @@ export const CharacterOccupationAndSkills: React.FC<CharacterOccupationAndSkills
                             ? { root: classes.root }
                             : {}
                         }
-                        onChange={setSkill(skill)}
+                        onChange={handleChangeSkill(skill)}
                       />
                     </Box>
                     <Box display="flex" flexDirection="column">
