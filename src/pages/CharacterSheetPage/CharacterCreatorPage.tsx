@@ -1,6 +1,15 @@
 import React, { useState, ChangeEvent, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { Box, ThemeProvider, Button } from "@material-ui/core";
+import {
+  Box,
+  ThemeProvider,
+  Button,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
+} from "@material-ui/core";
 import { theme } from "../../config/theme";
 import styled from "styled-components";
 import { CharacterInfo } from "./CharacterInfo";
@@ -47,7 +56,8 @@ const getTotalOccupationSkillPoints = (
   }
 };
 
-export const CharacterSheetPage: React.FC = () => {
+export const CharacterCreatorPage: React.FC = () => {
+  // ======================================= STATE VARIABLES =======================================
   const { characterId } = useParams();
   const [character, setCharacter] = useState<COCInvestigator>(
     new COCInvestigator()
@@ -70,28 +80,50 @@ export const CharacterSheetPage: React.FC = () => {
     remainingOccupationSkillPoints,
     setRemainingOccupationSkillPoints,
   ] = useState(0);
+  const [isErrorDialogOpen, setIsErrorDialogOpen] = useState(true);
+  const [errorMessages, setErrorMessages] = useState<string[]>([]);
 
-  const setCharacterOccupation = (
-    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const name = event.target.value;
-    if (name) {
-      const newOccupation = occupations.find((occ) => occ.name === name)
-      setOccupation(newOccupation);
-      setCharacter({
-        ...character,
-        info: {
-          ...character.info,
-          occupation: name,
-        },
-      });
-      const newTotal = getTotalOccupationSkillPoints(newOccupation, baseStats)
-      setTotalOccupationSkillPoints(newTotal);
-      setRemainingOccupationSkillPoints(newTotal)
-      setRemainingHobbiePoints(baseStats.intelligence * 2)
-      setSkills(baselineInvestigator.skills);
+  // ======================================= SAVE CHARACTER FUNCTIONS =======================================
+
+  const handleCloseErrorDialog = () => setIsErrorDialogOpen(false);
+
+  const onSaveCharacterClick = () => {
+    const latestErrorMessages: string[] = [];
+    if (!character.info.birthplace) {
+      latestErrorMessages.push("Fill a Birthplace");
+    }
+    if (!character.info.name) {
+      latestErrorMessages.push("Fill a valid Name");
+    }
+    if (!character.info.player) {
+      latestErrorMessages.push("Fill your Player Name");
+    }
+    if (!character.info.sex) {
+      latestErrorMessages.push("Fill a Sex");
+    }
+    if (!occupation) {
+      latestErrorMessages.push("Select a character Occupation");
+    }
+    if (remainingHobbiePoints !== 0) {
+      latestErrorMessages.push(
+        "Remaining personal interest skill points must equal to zero"
+      );
+    }
+    if (remainingOccupationSkillPoints !== 0) {
+      latestErrorMessages.push(
+        "Remaining occupation skill points must equal to zero"
+      );
+    }
+
+    setErrorMessages(latestErrorMessages);
+    if (latestErrorMessages.length === 0) {
+      //save character
+    } else {
+      setIsErrorDialogOpen(true);
     }
   };
+
+  // ======================================= AUTOMATIC CALCULATIONS =======================================
 
   const calculateSpecialStats = () => {
     const { db: damageBonus, build } = DamageBonusAndBuildCalculator(
@@ -122,13 +154,45 @@ export const CharacterSheetPage: React.FC = () => {
     calculateSpecialStats();
   }, [baseStats]);
 
+  // ======================================= STATE VARIABLE SETTERS =======================================
+
+  const setCharacterOccupation = (
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const name = event.target.value;
+    if (name) {
+      const newOccupation = occupations.find((occ) => occ.name === name);
+      setOccupation(newOccupation);
+      setCharacter({
+        ...character,
+        info: {
+          ...character.info,
+          occupation: name,
+        },
+      });
+      const newTotal = getTotalOccupationSkillPoints(newOccupation, baseStats);
+      setTotalOccupationSkillPoints(newTotal);
+      setRemainingOccupationSkillPoints(newTotal);
+      setRemainingHobbiePoints(baseStats.intelligence * 2);
+      setSkills(baselineInvestigator.skills);
+    }
+  };
+
   const setCharacterInfo = (propName: string) => (
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     if (propName === "age") {
-      if (isNaN(parseInt(event.target.value))) {
-        return;
+      const newAge = Number(event.target.value);
+      if (newAge || event.target.value === "") {
+        setCharacter({
+          ...character,
+          info: {
+            ...character.info,
+            [propName]: newAge,
+          },
+        });
       }
+      return;
     }
     setCharacter({
       ...character,
@@ -169,7 +233,6 @@ export const CharacterSheetPage: React.FC = () => {
       [propName]: newSkill,
     });
   };
-
 
   return (
     <Wrapper>
@@ -216,10 +279,26 @@ export const CharacterSheetPage: React.FC = () => {
           />
         </Box>
         <Box display="flex" justifyContent="flex-end" mt={3}>
-          <Button variant="contained" color="primary">
-            FINISH AND SAVE
+          <Button variant="contained" color="primary" onClick={onSaveCharacterClick}>
+            <Box m={1}>FINISH AND SAVE</Box>
           </Button>
         </Box>
+        <Dialog open={isErrorDialogOpen} onClose={handleCloseErrorDialog}>
+          <DialogTitle>
+            {
+              "Can't save character, please correct the errors below before saving"
+            }
+          </DialogTitle>
+          <DialogContent>
+            {errorMessages.map((message) => {
+              return (
+                <Box ml={2}>
+                  <DialogContentText>{`- ${message}`}</DialogContentText>
+                </Box>
+              );
+            })}
+          </DialogContent>
+        </Dialog>
       </ThemeProvider>
     </Wrapper>
   );
