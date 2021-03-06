@@ -1,10 +1,9 @@
-import React, { ChangeEvent, useState, useEffect, useMemo } from "react";
+import React, { ChangeEvent } from "react";
 import {
   Box,
   Grid,
   TextField,
   Typography,
-  MenuItem,
   makeStyles,
 } from "@material-ui/core";
 import {
@@ -15,9 +14,7 @@ import {
 import { TypographyVariant } from "../../utils/TypographyVariant";
 import { customThemeProps } from "../../config/customThemeProps";
 import {
-  occupationNames,
   InvestigatorOccupation,
-  occupations,
 } from "../../models/COCInvestigator/InvestigatorOccupations";
 import {
   InvestigatorSkillTypes,

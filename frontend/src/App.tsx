@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import { CharacterSheetPage } from "./pages/CharacterSheetPage/CharacterSheetPage";
+import { CharacterCreatorPage } from "./pages/CharacterSheetPage/CharacterCreatorPage";
 
 const AppWrapper = styled.div`
   display: flex;
@@ -20,10 +20,10 @@ const App: React.FC = () => {
             renders the first one that matches the current URL. */}
           <Switch>
             <Route path="/character/:characterId">
-              <CharacterSheetPage />
+              <CharacterCreatorPage />
             </Route>
-            <Route path="/new-character">
-              <p>teste</p>
+            <Route path="/create-character">
+            <CharacterCreatorPage />
             </Route>
             <Route path="/">
               <></>
