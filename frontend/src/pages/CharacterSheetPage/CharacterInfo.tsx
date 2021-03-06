@@ -25,7 +25,7 @@ export const CharacterInfo: React.FC<CharacterInfoProps> = ({ info, setInfo }) =
           <Box height="8px"/>
           <TextField label="Name" value={info.name} onChange={setInfo('name')}/>
           <Box height="8px"/>
-          <TextField label="Occupation" value={info.occupation} onChange={setInfo('occupation')}/>
+          <TextField label="Occupation" value={info.occupation} onChange={setInfo('occupation')} disabled/>
           <Box height="8px"/>
           <TextField label="Birthplace" value={info.birthplace} onChange={setInfo('birthplace')}/>
           <Box height="8px"/>

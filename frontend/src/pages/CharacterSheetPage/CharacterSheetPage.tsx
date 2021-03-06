@@ -1,6 +1,6 @@
 import React, { useState, ChangeEvent, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { Box, ThemeProvider } from "@material-ui/core";
+import { Box, ThemeProvider, Button } from "@material-ui/core";
 import { theme } from "../../config/theme";
 import styled from "styled-components";
 import { CharacterInfo } from "./CharacterInfo";
@@ -16,7 +16,12 @@ import {
   MoveRateCalculator,
   DamageBonusAndBuildCalculator,
 } from "../../utils/COCCalculators";
-import { CharacterOccupationAndSkills } from "./CharacterOccupationAndSkills";
+import { CharacterOccupation } from "./CharacterOccupation";
+import {
+  InvestigatorOccupation,
+  occupations,
+} from "../../models/COCInvestigator/InvestigatorOccupations";
+import { CharacterSkills } from "./CharacterSkills";
 
 const Wrapper = styled.div`
   display: flex;
@@ -25,7 +30,22 @@ const Wrapper = styled.div`
   padding: 88px;
   background-color: white;
 `;
-const baselineInvestigator = new COCInvestigator()
+const baselineInvestigator = new COCInvestigator();
+
+const getTotalOccupationSkillPoints = (
+  occupation: InvestigatorOccupation | undefined,
+  stats: InvestigatorBaseStats
+) => {
+  if (occupation) {
+    return occupation.skillPoints.reduce((acc, skill) => {
+      //@ts-ignore
+      const points = stats[skill.type] * skill.multiplier;
+      return acc + points;
+    }, 0);
+  } else {
+    return 0;
+  }
+};
 
 export const CharacterSheetPage: React.FC = () => {
   const { characterId } = useParams();
@@ -38,17 +58,26 @@ export const CharacterSheetPage: React.FC = () => {
   const [specialStats, setSpecialStats] = useState<InvestigatorSpecialStats>(
     character.stats.specialStats
   );
-  const [skills, setSkills] = useState<InvestigatorSkills>(
-    character.skills
-  )
-  const [occupation, setOccupation] = useState<string>("");
+  const [skills, setSkills] = useState<InvestigatorSkills>(character.skills);
+  const [occupation, setOccupation] = useState<InvestigatorOccupation>();
+  const [remainingHobbiePoints, setRemainingHobbiePoints] = useState(
+    baseStats.intelligence * 2
+  );
+  const [totalOccupationSkillPoints, setTotalOccupationSkillPoints] = useState(
+    0
+  );
+  const [
+    remainingOccupationSkillPoints,
+    setRemainingOccupationSkillPoints,
+  ] = useState(0);
 
   const setCharacterOccupation = (
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const name = event.target.value;
     if (name) {
-      setOccupation(name);
+      const newOccupation = occupations.find((occ) => occ.name === name)
+      setOccupation(newOccupation);
       setCharacter({
         ...character,
         info: {
@@ -56,7 +85,11 @@ export const CharacterSheetPage: React.FC = () => {
           occupation: name,
         },
       });
-      setSkills(baselineInvestigator.skills)
+      const newTotal = getTotalOccupationSkillPoints(newOccupation, baseStats)
+      setTotalOccupationSkillPoints(newTotal);
+      setRemainingOccupationSkillPoints(newTotal)
+      setRemainingHobbiePoints(baseStats.intelligence * 2)
+      setSkills(baselineInvestigator.skills);
     }
   };
 
@@ -92,6 +125,11 @@ export const CharacterSheetPage: React.FC = () => {
   const setCharacterInfo = (propName: string) => (
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
+    if (propName === "age") {
+      if (isNaN(parseInt(event.target.value))) {
+        return;
+      }
+    }
     setCharacter({
       ...character,
       info: {
@@ -126,15 +164,13 @@ export const CharacterSheetPage: React.FC = () => {
   };
 
   const setCharacterSkill = (propName: string, newSkill: number) => {
-      setSkills({
-        ...skills,
-        [propName]: newSkill,
-      });
+    setSkills({
+      ...skills,
+      [propName]: newSkill,
+    });
   };
 
-  const resetCharacterSkills = () => {
-    setSkills(baselineInvestigator.skills)
-  }
+
   return (
     <Wrapper>
       <ThemeProvider theme={theme}>
@@ -157,14 +193,32 @@ export const CharacterSheetPage: React.FC = () => {
           </Box>
         </Box>
         <Box display="flex" mt={2}>
-          <CharacterOccupationAndSkills
-            occupationName={occupation}
-            setOccupationName={setCharacterOccupation}
+          <CharacterOccupation
+            occupation={occupation}
+            setOccupation={setCharacterOccupation}
+          />
+        </Box>
+
+        <Box display="flex" mt={2}>
+          <CharacterSkills
+            occupation={occupation}
             skills={skills}
             setSkill={setCharacterSkill}
             stats={baseStats}
-            resetSkills={resetCharacterSkills}
+            totalOccupationSkillPoints={totalOccupationSkillPoints}
+            setRemainingOccupationSkillPoints={
+              setRemainingOccupationSkillPoints
+            }
+            remainingHobbieSkillPoints={remainingHobbiePoints}
+            remainingOccupationSkillPoints={remainingOccupationSkillPoints}
+            setRemainingHobbieSkillPoints={setRemainingHobbiePoints}
+            totalHobbieSkillPoints={baseStats.intelligence * 2}
           />
+        </Box>
+        <Box display="flex" justifyContent="flex-end" mt={3}>
+          <Button variant="contained" color="primary">
+            FINISH AND SAVE
+          </Button>
         </Box>
       </ThemeProvider>
     </Wrapper>

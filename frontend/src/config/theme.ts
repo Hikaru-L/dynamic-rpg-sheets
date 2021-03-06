@@ -88,7 +88,7 @@ export const theme = createMuiTheme({
       main: '#984393',
     },
     text: {
-      primary: 'black',
+      primary: '#000000',
       secondary: '#315c4a',
     },
   },
