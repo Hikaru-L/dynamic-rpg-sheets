@@ -9,6 +9,7 @@
         "eject": "react-scripts eject",
         "deploy": "gh-pages -d build"
     },
+    "homepage": "https://hikaru-l.github.io/dynamic-rpg-sheets",
     "dependencies": {
         "@material-ui/core": "^4.11.3",
         "@testing-library/jest-dom": "^5.11.4",
