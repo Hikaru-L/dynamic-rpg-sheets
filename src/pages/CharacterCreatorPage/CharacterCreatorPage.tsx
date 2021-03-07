@@ -115,6 +115,10 @@ export const CharacterCreatorPage: React.FC = () => {
     }
     if (!occupation) {
       latestErrorMessages.push("Select a character Occupation");
+    } else {
+      if((skills.creditRating < occupation?.creditRating.min) || skills.creditRating) {
+
+      }
     }
     if (remainingHobbiePoints !== 0) {
       latestErrorMessages.push(
@@ -126,6 +130,7 @@ export const CharacterCreatorPage: React.FC = () => {
         "Remaining occupation skill points must equal to zero"
       );
     }
+    
 
     setErrorMessages(latestErrorMessages);
     if (latestErrorMessages.length === 0) {
