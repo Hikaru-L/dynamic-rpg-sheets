@@ -9,7 +9,7 @@ var sheets_json_1 = __importDefault(require("../../../data/sheets.json"));
 var createSheetEndpoint = function (req, res) {
     console.log('request body: ', req.body);
     var sheets = sheets_json_1.default.sheets;
-    var existingSheet = sheets.find(function (sheet) { return sheet.id === req.body.id; });
+    var existingSheet = sheets.find(function (sheet) { return sheet.info.name === req.body.info.name; });
     if (existingSheet) {
         //return error
         res.send('Choose a different id');

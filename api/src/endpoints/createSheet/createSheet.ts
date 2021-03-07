@@ -8,8 +8,8 @@ export const createSheetEndpoint = (req: Request, res: Response) => {
 
   console.log('request body: ', req.body)
 
-  const sheets = (savedSheets as COCInvestigatorsDataModel).sheets
-  const existingSheet = sheets.find((sheet) => sheet.id === (req.body as CallOfCthulhuInvestigator).id)
+  const sheets = (savedSheets as unknown as COCInvestigatorsDataModel).sheets
+  const existingSheet = sheets.find((sheet) => sheet.info.name === (req.body as CallOfCthulhuInvestigator).info.name)
   if(existingSheet) {
     //return error
     res.send('Choose a different id')

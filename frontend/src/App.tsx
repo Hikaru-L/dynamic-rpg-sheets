@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import { CharacterCreatorPage } from "./pages/CharacterSheetPage/CharacterCreatorPage";
+import { CharacterCreatorPage } from "./pages/CharacterCreatorPage/CharacterCreatorPage";
 
 const AppWrapper = styled.div`
   display: flex;

@@ -6,9 +6,9 @@ import { COCInvestigatorsDataModel } from '../../models/data/COCInvestigatorsDat
 
 export const getSheetEndpoint = (req: Request, res: Response) => {
   const sheetId = req.query.id
-  const sheets = (savedSheets as COCInvestigatorsDataModel).sheets
+  const sheets = (savedSheets as unknown as COCInvestigatorsDataModel).sheets
   console.log(sheets)
-  const sheet = sheets.find((currSheet) => {return currSheet.id.toString() === sheetId})
+  const sheet = sheets.find((currSheet) => {return currSheet.info.name.toString() === sheetId})
   console.log('Requested character of: ', sheetId, ' id')
   if(sheet) {
     //deu bom, retornar sheet

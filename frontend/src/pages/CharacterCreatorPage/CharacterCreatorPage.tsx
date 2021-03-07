@@ -31,6 +31,7 @@ import {
   occupations,
 } from "../../models/COCInvestigator/InvestigatorOccupations";
 import { CharacterSkills } from "./CharacterSkills";
+import { saveInvestigator } from "../../service/endpoints/investigatorEndpoints";
 
 const Wrapper = styled.div`
   display: flex;
@@ -87,6 +88,17 @@ export const CharacterCreatorPage: React.FC = () => {
 
   const handleCloseErrorDialog = () => setIsErrorDialogOpen(false);
 
+  useEffect(() => {
+    setCharacter({
+      ...character,
+      skills,
+      stats: {
+        baseStats,
+        specialStats,
+      },
+    })
+  }, [baseStats, skills, occupation, specialStats])
+
   const onSaveCharacterClick = () => {
     const latestErrorMessages: string[] = [];
     if (!character.info.birthplace) {
@@ -117,7 +129,7 @@ export const CharacterCreatorPage: React.FC = () => {
 
     setErrorMessages(latestErrorMessages);
     if (latestErrorMessages.length === 0) {
-      //save character
+      saveInvestigator(character)
     } else {
       setIsErrorDialogOpen(true);
     }

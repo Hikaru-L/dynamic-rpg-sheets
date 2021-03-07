@@ -9,7 +9,7 @@ var getSheetEndpoint = function (req, res) {
     var sheetId = req.query.id;
     var sheets = sheets_json_1.default.sheets;
     console.log(sheets);
-    var sheet = sheets.find(function (currSheet) { return currSheet.id.toString() === sheetId; });
+    var sheet = sheets.find(function (currSheet) { return currSheet.info.name.toString() === sheetId; });
     console.log('Requested character of: ', sheetId, ' id');
     if (sheet) {
         //deu bom, retornar sheet

@@ -9,7 +9,7 @@ var sheets_json_1 = __importDefault(require("../../../data/sheets.json"));
 var editSheetEndpoint = function (req, res) {
     console.log('request body: ', req.body);
     var sheets = sheets_json_1.default.sheets;
-    var index = sheets.findIndex(function (sheet) { return sheet.id === req.body.id; });
+    var index = sheets.findIndex(function (sheet) { return sheet.info.name === req.body.info.name; });
     if (index >= 0) {
         sheets[index] = req.body;
         var newData = {

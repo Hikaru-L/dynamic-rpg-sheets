@@ -9,7 +9,7 @@ export const editSheetEndpoint = (req: Request, res: Response) => {
   console.log('request body: ', req.body)
 
   const sheets = (savedSheets as COCInvestigatorsDataModel).sheets
-  const index = sheets.findIndex((sheet) => sheet.id === (req.body as CallOfCthulhuInvestigator).id)
+  const index = sheets.findIndex((sheet) => sheet.info.name === (req.body as CallOfCthulhuInvestigator).info.name)
   if(index >= 0) {
     sheets[index] = req.body as CallOfCthulhuInvestigator
     const newData: COCInvestigatorsDataModel = {
