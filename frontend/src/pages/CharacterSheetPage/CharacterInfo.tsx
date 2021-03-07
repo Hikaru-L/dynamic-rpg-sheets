@@ -2,6 +2,7 @@ import React, { ChangeEvent } from "react";
 import { Box, TextField, Typography } from "@material-ui/core";
 import { InvestigatorBaseInfo } from "../../models/COCInvestigator/COCInvestigator";
 import { TypographyVariant } from "../../utils/TypographyVariant";
+import { theme } from "../../config/theme";
 
 export interface CharacterInfoProps {
   info: InvestigatorBaseInfo;
@@ -12,7 +13,7 @@ export const CharacterInfo: React.FC<CharacterInfoProps> = ({ info, setInfo }) =
     <Box display="flex"
     flex={1}
     flexDirection="column" >
-      <Typography variant={TypographyVariant.H4}>{'Character Info'}</Typography>
+      <Typography variant={TypographyVariant.H4} color="textPrimary">{'Character Info'}</Typography>
       <Box
         display="flex"
         flexDirection="column"
@@ -20,6 +21,7 @@ export const CharacterInfo: React.FC<CharacterInfoProps> = ({ info, setInfo }) =
         border={`2px solid black`}
         padding="16px"
         height="100%"
+        bgcolor={theme.palette.background.paper}
       >
           <TextField label="Player name" value={info.player} onChange={setInfo('player')}/>
           <Box height="8px"/>

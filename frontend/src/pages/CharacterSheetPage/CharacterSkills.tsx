@@ -13,25 +13,24 @@ import {
 } from "../../models/COCInvestigator/COCInvestigator";
 import { TypographyVariant } from "../../utils/TypographyVariant";
 import { customThemeProps } from "../../config/customThemeProps";
-import {
-  InvestigatorOccupation,
-} from "../../models/COCInvestigator/InvestigatorOccupations";
+import { InvestigatorOccupation } from "../../models/COCInvestigator/InvestigatorOccupations";
 import {
   InvestigatorSkillTypes,
   InvestigatorSkillTypeNames,
 } from "../../models/COCInvestigator/InvestigatorSkills";
+import { theme } from "../../config/theme";
 
 export interface CharacterOccupationAndSkillsProps {
   skills: InvestigatorSkills;
   stats: InvestigatorBaseStats;
   setSkill: (propName: string, newSkill: number) => void;
-  totalOccupationSkillPoints: number
-  remainingOccupationSkillPoints: number
-  setRemainingOccupationSkillPoints: (state: number) => void
-  totalHobbieSkillPoints: number
-  remainingHobbieSkillPoints: number
-  setRemainingHobbieSkillPoints: (state: number) => void
-  occupation: InvestigatorOccupation | undefined
+  totalOccupationSkillPoints: number;
+  remainingOccupationSkillPoints: number;
+  setRemainingOccupationSkillPoints: (state: number) => void;
+  totalHobbieSkillPoints: number;
+  remainingHobbieSkillPoints: number;
+  setRemainingHobbieSkillPoints: (state: number) => void;
+  occupation: InvestigatorOccupation | undefined;
 }
 const baselineInvestigator = new COCInvestigator();
 let skillsOldState = baselineInvestigator.skills;
@@ -65,24 +64,37 @@ export const CharacterSkills: React.FC<CharacterOccupationAndSkillsProps> = ({
   stats,
   setSkill,
   remainingHobbieSkillPoints,
-  remainingOccupationSkillPoints, 
+  remainingOccupationSkillPoints,
   totalOccupationSkillPoints,
   occupation,
   setRemainingHobbieSkillPoints,
   setRemainingOccupationSkillPoints,
 }) => {
+  const useHighlightedStyles = makeStyles({
+    root: {
+      "& .MuiFilledInput-root": {
+        backgroundColor: theme.palette.primary.main,
+        color: "#fff",
+      },
+      "& .MuiInputLabel-root": {
+        color: "#fff",
+      },
+    },
+  });
 
   const useStyles = makeStyles({
     root: {
-      backgroundColor: "#c2edfb",
+      "& .MuiFilledInput-root": {
+        backgroundColor: "#121212",
+      },
     },
   });
+
+  const highlightedClasses = useHighlightedStyles();
   const classes = useStyles();
 
   // ======================================== SKILL POINTS LOGIC ========================================
   //TODO only let save if credit rating meets basic occupation requirements
-
-  // reset skills and remaining points when changes occupation
 
   //TODO fix logic here, theres some weird shenanigans going on
   const handleChangeSkill = (skillName: string) => (
@@ -121,7 +133,9 @@ export const CharacterSkills: React.FC<CharacterOccupationAndSkillsProps> = ({
             );
           }
         } else {
-          setRemainingHobbieSkillPoints(remainingHobbieSkillPoints - pointVariation);
+          setRemainingHobbieSkillPoints(
+            remainingHobbieSkillPoints - pointVariation
+          );
         }
       } else {
         //detract from remaining points
@@ -141,7 +155,9 @@ export const CharacterSkills: React.FC<CharacterOccupationAndSkillsProps> = ({
             setRemainingOccupationSkillPoints(0);
           }
         } else {
-          setRemainingHobbieSkillPoints(remainingHobbieSkillPoints - pointVariation);
+          setRemainingHobbieSkillPoints(
+            remainingHobbieSkillPoints - pointVariation
+          );
         }
       }
     }
@@ -152,111 +168,119 @@ export const CharacterSkills: React.FC<CharacterOccupationAndSkillsProps> = ({
   // ===================================================================================================
 
   return (
-      <Box mt={2}>
-        <Typography variant={TypographyVariant.H4}>{"Skills"}</Typography>
-        <Box
-          display="flex"
-          flexDirection="column"
-          borderRadius="4px"
-          border={`2px solid black`}
-          padding="16px"
-        >
-          <Box>
-            <Typography
-              variant={TypographyVariant.H6}
-              color="textSecondary"
-            >{`Total Occupation points: ${totalOccupationSkillPoints}`}</Typography>
-            <Typography
-              variant={TypographyVariant.H6}
-              color="textSecondary"
-            >{`Remaining Occupation points: ${remainingOccupationSkillPoints}`}</Typography>
-            <Typography
-              variant={TypographyVariant.H6}
-            >{`Total Personal Interest points: ${
-              stats.intelligence * 2
-            }`}</Typography>
-            <Typography
-              variant={TypographyVariant.H6}
-            >{`Remaining Personal Interest points: ${remainingHobbieSkillPoints}`}</Typography>
-            <Box my={2}>
+    <Box mt={2}>
+      <Typography variant={TypographyVariant.H4} color="textPrimary">
+        {"Skills"}
+      </Typography>
+      <Box
+        display="flex"
+        flexDirection="column"
+        borderRadius="4px"
+        border={`2px solid black`}
+        padding="16px"
+        bgcolor={theme.palette.background.paper}
+      >
+        <Box>
+          <Typography
+            variant={TypographyVariant.H6}
+            color="textSecondary"
+          >{`Total Occupation points: ${totalOccupationSkillPoints}`}</Typography>
+          <Typography
+            variant={TypographyVariant.H6}
+            color="textSecondary"
+          >{`Remaining Occupation points: ${remainingOccupationSkillPoints}`}</Typography>
+          <Typography
+            variant={TypographyVariant.H6}
+            color="textPrimary"
+          >{`Total Personal Interest points: ${
+            stats.intelligence * 2
+          }`}</Typography>
+          <Typography
+            variant={TypographyVariant.H6}
+            color="textPrimary"
+          >{`Remaining Personal Interest points: ${remainingHobbieSkillPoints}`}</Typography>
+          <Box my={2}>
+            <Typography variant={TypographyVariant.OVERLINE} color={"error"}>
+              {
+                "Occupation-specific skills will be highlighted green and allocated points will automatically be subtracted from total."
+              }
+            </Typography>
+            <div>
               <Typography variant={TypographyVariant.OVERLINE} color={"error"}>
                 {
-                  "Occupation-specific skills will be highlighted blue and allocated points will automatically be subtracted from total."
+                  "Occupations with interpersonal skills will highlight those, so keep in mind the upper limit of skills of that type your occupation can have."
                 }
               </Typography>
-              <div>
-                <Typography
-                  variant={TypographyVariant.OVERLINE}
-                  color={"error"}
-                >
-                  {
-                    "Occupations with interpersonal skills will highlight those, so keep in mind the upper limit of skills of that type your occupation can have."
-                  }
-                </Typography>
-              </div>
-            </Box>
+            </div>
           </Box>
-          <Grid container>
-            {Object.keys(skills).map((skill) => {
-              return (
-                <Grid item md={2} key={skill}>
-                  <Box m={1} display="flex">
-                    <Box display="flex" mr="4px">
-                      <TextField
-                        //@ts-ignore
-                        label={InvestigatorSkillTypeNames[skill]}
-                        //@ts-ignore
-                        value={skills[skill]}
-                        variant={"filled"}
-                        classes={
-                          shouldHighlightSkill(skill, occupation)
-                            ? { root: classes.root }
-                            : {}
+        </Box>
+        <Grid container>
+          {Object.keys(skills).map((skill) => {
+            return (
+              <Grid item md={2} key={skill}>
+                <Box m={1} display="flex">
+                  <Box display="flex" mr="4px">
+                    <TextField
+                      //@ts-ignore
+                      label={InvestigatorSkillTypeNames[skill]}
+                      //@ts-ignore
+                      value={skills[skill]}
+                      variant={"filled"}
+                      classes={{
+                        root: shouldHighlightSkill(skill, occupation)
+                          ? highlightedClasses.root
+                          : classes.root,
+                      }}
+                      onChange={handleChangeSkill(skill)}
+                    />
+                  </Box>
+                  <Box display="flex" flexDirection="column">
+                    <Box
+                      border={`1px solid ${customThemeProps.colors.waterGreen}`}
+                      borderRadius="4px"
+                      px="1px"
+                      mb="2px"
+                      display="flex"
+                      justifyContent="center"
+                      alignItems="center"
+                      width="24px"
+                    >
+                      <Typography
+                        variant={TypographyVariant.BODY1}
+                        color="textPrimary"
+                      >
+                        {
+                          // @ts-ignore
+                          Math.floor(skills[skill] / 2)
                         }
-                        onChange={handleChangeSkill(skill)}
-                      />
+                      </Typography>
                     </Box>
-                    <Box display="flex" flexDirection="column">
-                      <Box
-                        border={`1px solid ${customThemeProps.colors.waterGreen}`}
-                        borderRadius="4px"
-                        px="1px"
-                        mb="2px"
-                        display="flex"
-                        justifyContent="center"
-                        alignItems="center"
-                        width="24px"
+                    <Box
+                      border={`1px solid ${customThemeProps.colors.waterGreen}`}
+                      borderRadius="4px"
+                      px="1px"
+                      display="flex"
+                      justifyContent="center"
+                      alignItems="center"
+                      width="24px"
+                    >
+                      <Typography
+                        variant={TypographyVariant.BODY1}
+                        color="textPrimary"
                       >
-                        <Typography variant={TypographyVariant.BODY1}>
-                          {
-                            // @ts-ignore
-                            Math.floor(skills[skill] / 2)
-                          }
-                        </Typography>
-                      </Box>
-                      <Box
-                        border={`1px solid ${customThemeProps.colors.waterGreen}`}
-                        borderRadius="4px"
-                        px="1px"
-                        display="flex"
-                        justifyContent="center"
-                        alignItems="center"
-                        width="24px"
-                      >
-                        <Typography variant={TypographyVariant.BODY1}>
-                          {
-                            // @ts-ignore
-                            Math.floor(skills[skill] / 5)
-                          }
-                        </Typography>
-                      </Box>
+                        {
+                          // @ts-ignore
+                          Math.floor(skills[skill] / 5)
+                        }
+                      </Typography>
                     </Box>
                   </Box>
-                </Grid>
-              );
-            })}
-          </Grid>
-        </Box>
+                </Box>
+              </Grid>
+            );
+          })}
+        </Grid>
       </Box>
+    </Box>
   );
 };

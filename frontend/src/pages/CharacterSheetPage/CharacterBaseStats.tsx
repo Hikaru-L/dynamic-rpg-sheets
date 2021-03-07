@@ -1,5 +1,5 @@
 import React, { ChangeEvent } from "react";
-import { Box, Grid, TextField, Typography } from "@material-ui/core";
+import { Box, Grid, TextField, Typography, makeStyles } from "@material-ui/core";
 import {
   InvestigatorStats,
   InvestigatorBaseStats,
@@ -7,6 +7,7 @@ import {
 } from "../../models/COCInvestigator/COCInvestigator";
 import { TypographyVariant } from "../../utils/TypographyVariant";
 import { customThemeProps } from "../../config/customThemeProps";
+import { theme } from "../../config/theme";
 
 export interface CharacterBaseStatsProps {
   baseStats: InvestigatorBaseStats;
@@ -77,6 +78,20 @@ export const CharacterBaseStats: React.FC<CharacterBaseStatsProps> = ({
   specialStats,
   setStats,
 }) => {
+
+  const useStyles = makeStyles({
+    root: {
+      "& .MuiOutlinedInput-root": {
+        backgroundColor: "#232323",
+        color: "#fff",
+      },
+      "& .MuiInputLabel-root": {
+        color: "#fff",
+      },
+    },
+  });
+  const classes = useStyles()
+
   return (
     <Box
       height="100%"
@@ -85,7 +100,7 @@ export const CharacterBaseStats: React.FC<CharacterBaseStatsProps> = ({
       justifyContent="space-between"
     >
       <Box display="flex" flexDirection="column">
-        <Typography variant={TypographyVariant.H4}>
+        <Typography variant={TypographyVariant.H4} color="textPrimary">
           {"Base Attributes"}
         </Typography>
         <Box
@@ -94,6 +109,7 @@ export const CharacterBaseStats: React.FC<CharacterBaseStatsProps> = ({
           borderRadius="4px"
           border={`2px solid black`}
           padding="16px"
+          bgcolor={theme.palette.background.paper}
         >
           <Grid container spacing={1}>
             {statNames.map((statName) => {
@@ -120,7 +136,7 @@ export const CharacterBaseStats: React.FC<CharacterBaseStatsProps> = ({
                         alignItems="center"
                         width="24px"
                       >
-                        <Typography variant={TypographyVariant.BODY1}>
+                        <Typography variant={TypographyVariant.BODY1} color="textPrimary">
                           {
                             // @ts-ignore
                             Math.floor(baseStats[statName.id] / 2)
@@ -136,7 +152,7 @@ export const CharacterBaseStats: React.FC<CharacterBaseStatsProps> = ({
                         alignItems="center"
                         width="24px"
                       >
-                        <Typography variant={TypographyVariant.BODY1}>
+                        <Typography variant={TypographyVariant.BODY1} color="textPrimary">
                           {
                             // @ts-ignore
                             Math.floor(baseStats[statName.id] / 5)
@@ -151,8 +167,8 @@ export const CharacterBaseStats: React.FC<CharacterBaseStatsProps> = ({
           </Grid>
         </Box>
       </Box>
-      <Box display="flex" flexDirection="column">
-        <Typography variant={TypographyVariant.H4}>
+      <Box display="flex" flexDirection="column" mt={2}>
+        <Typography variant={TypographyVariant.H4} color="textPrimary">
           {"Special Attributes"}
         </Typography>
         <Box
@@ -161,6 +177,7 @@ export const CharacterBaseStats: React.FC<CharacterBaseStatsProps> = ({
           borderRadius="4px"
           border={`2px solid black`}
           padding="16px"
+          bgcolor={theme.palette.background.paper}
         >
           <Grid container spacing={1}>
             {specialStatNames.map((stat) => {
@@ -171,6 +188,7 @@ export const CharacterBaseStats: React.FC<CharacterBaseStatsProps> = ({
                     //@ts-ignore
                     value={specialStats[stat.id]}
                     variant={"outlined"}
+                    classes={{root: classes.root}}
                     onChange={(e) => {
                       return;
                     }}

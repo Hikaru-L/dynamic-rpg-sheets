@@ -13,6 +13,7 @@ import {
 import {
   InvestigatorSkillTypeNames,
 } from "../../models/COCInvestigator/InvestigatorSkills";
+import { theme } from "../../config/theme";
 
 export interface CharacterOccupationProps {
   occupation: InvestigatorOccupation | undefined;
@@ -82,13 +83,14 @@ export const CharacterOccupation: React.FC<CharacterOccupationProps> = ({
       justifyContent="space-between"
     >
       <Box display="flex" flexDirection="column">
-        <Typography variant={TypographyVariant.H4}>{"Occupation"}</Typography>
+        <Typography variant={TypographyVariant.H4} color="textPrimary">{"Occupation"}</Typography>
         <Box
           display="flex"
           flexDirection="column"
           borderRadius="4px"
           border={`2px solid black`}
           padding="16px"
+          bgcolor={theme.palette.background.paper}
         >
           <Box display="flex" flex={1}>
             <Box display="flex" flex={1}>
@@ -118,35 +120,35 @@ export const CharacterOccupation: React.FC<CharacterOccupationProps> = ({
           </Box>
           <Box display="flex" mt={2}>
             <Box display="flex" flexDirection="column" flex={1} mr={2}>
-              <Typography variant={TypographyVariant.OVERLINE}>
+              <Typography variant={TypographyVariant.OVERLINE} color="textSecondary">
                 {"Description"}
               </Typography>
               <Box
                 display="flex"
                 flexDirection="column"
                 borderRadius="4px"
-                border={`1px solid black`}
+                border={`1px solid rgb(118, 118, 118)`}
                 padding="8px"
               >
-                <Typography variant={TypographyVariant.BODY2}>
+                <Typography variant={TypographyVariant.BODY2} color="textPrimary">
                   {occupation?.description}
                 </Typography>
               </Box>
             </Box>
             <Box display="flex" flexDirection="column" flex={1} mr={2}>
               <Box display="flex" flexDirection="column">
-                <Typography variant={TypographyVariant.OVERLINE}>
+                <Typography variant={TypographyVariant.OVERLINE} color="textSecondary">
                   {"Occupation skill points"}
                 </Typography>
                 <Box
                   display="flex"
                   flexDirection="column"
                   borderRadius="4px"
-                  border={`1px solid black`}
+                  border={`1px solid rgb(118, 118, 118)`}
                   padding="8px"
                   mb={1}
                 >
-                  <Typography variant={TypographyVariant.BODY2}>
+                  <Typography variant={TypographyVariant.BODY2} color="textPrimary">
                     {occupation
                       ? getOccupationSkillPointsString(occupation)
                       : ""}
@@ -154,17 +156,17 @@ export const CharacterOccupation: React.FC<CharacterOccupationProps> = ({
                 </Box>
               </Box>
               <Box display="flex" flexDirection="column">
-                <Typography variant={TypographyVariant.OVERLINE}>
+                <Typography variant={TypographyVariant.OVERLINE} color="textSecondary">
                   {"Credit Rating"}
                 </Typography>
                 <Box
                   display="flex"
                   flexDirection="column"
                   borderRadius="4px"
-                  border={`1px solid black`}
+                  border={`1px solid rgb(118, 118, 118)`}
                   padding="8px"
                 >
-                  <Typography variant={TypographyVariant.BODY2}>
+                  <Typography variant={TypographyVariant.BODY2} color="textPrimary">
                     {`min: ${occupation?.creditRating.min} max: ${occupation?.creditRating.max}`}
                   </Typography>
                 </Box>
@@ -172,34 +174,34 @@ export const CharacterOccupation: React.FC<CharacterOccupationProps> = ({
             </Box>
             <Box display="flex" flexDirection="column" flex={1}>
               <Box display="flex" flexDirection="column">
-                <Typography variant={TypographyVariant.OVERLINE}>
+                <Typography variant={TypographyVariant.OVERLINE} color="textSecondary">
                   {"Suggested Contacts"}
                 </Typography>
                 <Box
                   display="flex"
                   flexDirection="column"
                   borderRadius="4px"
-                  border={`1px solid black`}
+                  border={`1px solid rgb(118, 118, 118)`}
                   padding="8px"
                   mb={1}
                 >
-                  <Typography variant={TypographyVariant.BODY2}>
+                  <Typography variant={TypographyVariant.BODY2} color="textPrimary">
                     {occupation?.suggestedContacts.join(", ")}
                   </Typography>
                 </Box>
               </Box>
               <Box display="flex" flexDirection="column">
-                <Typography variant={TypographyVariant.OVERLINE}>
+                <Typography variant={TypographyVariant.OVERLINE} color="textSecondary">
                   {"Available Skills"}
                 </Typography>
                 <Box
                   display="flex"
                   flexDirection="column"
                   borderRadius="4px"
-                  border={`1px solid black`}
+                  border={`1px solid rgb(118, 118, 118)`}
                   padding="8px"
                 >
-                  <Typography variant={TypographyVariant.BODY2}>
+                  <Typography variant={TypographyVariant.BODY2} color="textPrimary">
                     {occupation ? getOccupationSkillsString(occupation) : ""}
                   </Typography>
                 </Box>
