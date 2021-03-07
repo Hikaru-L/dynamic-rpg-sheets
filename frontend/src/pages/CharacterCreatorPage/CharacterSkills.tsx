@@ -111,55 +111,16 @@ export const CharacterSkills: React.FC<CharacterOccupationAndSkillsProps> = ({
       const pointVariation = newSkillValue - oldSkillValue;
 
       //TODO add interpersonal skill treatment
-      if (pointVariation < 0) {
         //add to remaining points
-        if (
-          occupation.skills.includes(skillName as InvestigatorSkillTypes) &&
-          remainingOccupationSkillPoints < totalOccupationSkillPoints
-        ) {
-          if (
-            Math.abs(pointVariation) <=
-            totalOccupationSkillPoints - remainingOccupationSkillPoints
-          ) {
-            setRemainingOccupationSkillPoints(
-              remainingOccupationSkillPoints - pointVariation
-            );
-          } else {
-            setRemainingOccupationSkillPoints(totalOccupationSkillPoints);
-            setRemainingHobbieSkillPoints(
-              remainingHobbieSkillPoints +
-                (Math.abs(pointVariation) -
-                  (totalOccupationSkillPoints - remainingOccupationSkillPoints))
-            );
-          }
+        if (occupation.skills.includes(skillName as InvestigatorSkillTypes)) {
+          setRemainingOccupationSkillPoints(
+            remainingOccupationSkillPoints - pointVariation
+          );
         } else {
           setRemainingHobbieSkillPoints(
             remainingHobbieSkillPoints - pointVariation
           );
         }
-      } else {
-        //detract from remaining points
-        if (
-          occupation.skills.includes(skillName as InvestigatorSkillTypes) &&
-          remainingOccupationSkillPoints > 0
-        ) {
-          if (pointVariation <= remainingOccupationSkillPoints) {
-            setRemainingOccupationSkillPoints(
-              remainingOccupationSkillPoints - pointVariation
-            );
-          } else {
-            setRemainingHobbieSkillPoints(
-              remainingHobbieSkillPoints -
-                (pointVariation - remainingOccupationSkillPoints)
-            );
-            setRemainingOccupationSkillPoints(0);
-          }
-        } else {
-          setRemainingHobbieSkillPoints(
-            remainingHobbieSkillPoints - pointVariation
-          );
-        }
-      }
     }
     skillsOldState[skillName as InvestigatorSkillTypes] = newSkillValue;
     setSkill(skillName, newSkillValue);
