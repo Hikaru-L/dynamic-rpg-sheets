@@ -13,6 +13,7 @@ export class COCInvestigator {
       birthplace: '',
       sex: '',
       age: 1,
+      avatarUrl: ''
     }
     this.stats = {
       baseStats: {
@@ -95,6 +96,7 @@ export interface InvestigatorBaseInfo {
   birthplace: string
   sex: string
   age: number
+  avatarUrl: string
 }
 
 export interface InvestigatorStats {

@@ -82,14 +82,21 @@ export const theme = createMuiTheme({
   },
   palette: {
     primary: {
-      main: '#315c4a',
+      main: '#2f4f48',
+
     },
     secondary: {
-      main: '#984393',
+      main: '#526F35',
     },
     text: {
-      primary: '#000000',
-      secondary: '#315c4a',
+      primary: '#ffffff',
+      secondary: '#688a81',
     },
+    background: {
+      default: '#121212',
+      paper: '#181818',
+    },
+    divider: '#ffffff',
+    type: "dark",
   },
 });

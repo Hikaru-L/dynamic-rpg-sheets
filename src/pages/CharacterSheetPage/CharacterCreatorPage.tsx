@@ -37,7 +37,7 @@ const Wrapper = styled.div`
   flex-direction: column;
   flex: 1;
   padding: 88px;
-  background-color: white;
+  background-color: ${theme.palette.background.default};
 `;
 const baselineInvestigator = new COCInvestigator();
 
@@ -80,7 +80,7 @@ export const CharacterCreatorPage: React.FC = () => {
     remainingOccupationSkillPoints,
     setRemainingOccupationSkillPoints,
   ] = useState(0);
-  const [isErrorDialogOpen, setIsErrorDialogOpen] = useState(true);
+  const [isErrorDialogOpen, setIsErrorDialogOpen] = useState(false);
   const [errorMessages, setErrorMessages] = useState<string[]>([]);
 
   // ======================================= SAVE CHARACTER FUNCTIONS =======================================
@@ -234,6 +234,16 @@ export const CharacterCreatorPage: React.FC = () => {
     });
   };
 
+  const setPortrait = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setCharacter({
+      ...character,
+      info: {
+        ...character.info,
+        avatarUrl: event.target.value,
+      },
+    });
+  }
+
   return (
     <Wrapper>
       <ThemeProvider theme={theme}>
@@ -252,6 +262,8 @@ export const CharacterCreatorPage: React.FC = () => {
             <CharacterProfile
               specialStats={specialStats}
               setStats={setCharacterSpecialStats}
+              avatarUrl={character.info.avatarUrl}
+              setAvatarUrl={setPortrait}
             />
           </Box>
         </Box>
