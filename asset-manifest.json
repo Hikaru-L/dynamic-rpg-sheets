@@ -1,0 +1,19 @@
+{
+  "files": {
+    "main.js": "/dynamic-rpg-sheets/static/js/main.d6fddacc.chunk.js",
+    "main.js.map": "/dynamic-rpg-sheets/static/js/main.d6fddacc.chunk.js.map",
+    "runtime-main.js": "/dynamic-rpg-sheets/static/js/runtime-main.3465a17d.js",
+    "runtime-main.js.map": "/dynamic-rpg-sheets/static/js/runtime-main.3465a17d.js.map",
+    "static/js/2.5e02b69f.chunk.js": "/dynamic-rpg-sheets/static/js/2.5e02b69f.chunk.js",
+    "static/js/2.5e02b69f.chunk.js.map": "/dynamic-rpg-sheets/static/js/2.5e02b69f.chunk.js.map",
+    "static/js/3.9b9ac2fd.chunk.js": "/dynamic-rpg-sheets/static/js/3.9b9ac2fd.chunk.js",
+    "static/js/3.9b9ac2fd.chunk.js.map": "/dynamic-rpg-sheets/static/js/3.9b9ac2fd.chunk.js.map",
+    "index.html": "/dynamic-rpg-sheets/index.html",
+    "static/js/2.5e02b69f.chunk.js.LICENSE.txt": "/dynamic-rpg-sheets/static/js/2.5e02b69f.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.3465a17d.js",
+    "static/js/2.5e02b69f.chunk.js",
+    "static/js/main.d6fddacc.chunk.js"
+  ]
+}
