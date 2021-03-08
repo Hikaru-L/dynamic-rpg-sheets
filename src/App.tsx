@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { HashRouter as Router, Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { CharacterCreatorPage } from "./pages/CharacterCreatorPage/CharacterCreatorPage";
 
 const AppWrapper = styled.div`
@@ -16,7 +16,7 @@ const App: React.FC = () => {
     <div className="App">
       <header>
       <AppWrapper>
-        <Router basename="/">
+        <Router basename={`/${process.env.PUBLIC_URL}`}>
           {/* A <Switch> looks through its children <Route>s and
             renders the first one that matches the current URL. */}
           <Switch>
