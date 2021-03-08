@@ -96,8 +96,8 @@ export const CharacterCreatorPage: React.FC = () => {
         baseStats,
         specialStats,
       },
-    })
-  }, [baseStats, skills, occupation, specialStats])
+    });
+  }, [baseStats, skills, occupation, specialStats]);
 
   const onSaveCharacterClick = () => {
     const latestErrorMessages: string[] = [];
@@ -116,8 +116,14 @@ export const CharacterCreatorPage: React.FC = () => {
     if (!occupation) {
       latestErrorMessages.push("Select a character Occupation");
     } else {
-      if((skills.creditRating < occupation?.creditRating.min) || skills.creditRating) {
-
+      if (skills.creditRating < occupation.creditRating.min) {
+        latestErrorMessages.push(
+          `Your credit rating must be ${occupation.creditRating.min} or more according to your occupation`
+        );
+      } else if (skills.creditRating > occupation.creditRating.max) {
+        latestErrorMessages.push(
+          `Your credit rating can\'t exceed ${occupation.creditRating.max} according to your occupation`
+        );
       }
     }
     if (remainingHobbiePoints !== 0) {
@@ -130,11 +136,10 @@ export const CharacterCreatorPage: React.FC = () => {
         "Remaining occupation skill points must equal to zero"
       );
     }
-    
 
     setErrorMessages(latestErrorMessages);
     if (latestErrorMessages.length === 0) {
-      saveInvestigator(character)
+      saveInvestigator(character);
     } else {
       setIsErrorDialogOpen(true);
     }
@@ -251,7 +256,9 @@ export const CharacterCreatorPage: React.FC = () => {
     });
   };
 
-  const setPortrait = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const setPortrait = (
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     setCharacter({
       ...character,
       info: {
@@ -259,7 +266,7 @@ export const CharacterCreatorPage: React.FC = () => {
         avatarUrl: event.target.value,
       },
     });
-  }
+  };
 
   return (
     <Wrapper>
@@ -308,7 +315,11 @@ export const CharacterCreatorPage: React.FC = () => {
           />
         </Box>
         <Box display="flex" justifyContent="flex-end" mt={3}>
-          <Button variant="contained" color="primary" onClick={onSaveCharacterClick}>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={onSaveCharacterClick}
+          >
             <Box m={1}>FINISH AND SAVE</Box>
           </Button>
         </Box>
