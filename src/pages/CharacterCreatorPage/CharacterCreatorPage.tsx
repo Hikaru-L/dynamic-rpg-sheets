@@ -118,7 +118,7 @@ export const CharacterCreatorPage: React.FC = () => {
     } else {
       if (skills.creditRating < occupation.creditRating.min) {
         latestErrorMessages.push(
-          `Your credit rating must be ${occupation.creditRating.min} or more according to your occupation`
+          `Your credit rating must be at least ${occupation.creditRating.min} according to your occupation`
         );
       } else if (skills.creditRating > occupation.creditRating.max) {
         latestErrorMessages.push(

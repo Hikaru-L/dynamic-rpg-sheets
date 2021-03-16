@@ -1,4 +1,4 @@
 //TODO set environment variables
 export const getBaseApiUrl = () => {
-  return 'http://localhost:3001'
+  return 'https://us-central1-character-sheets-api.cloudfunctions.net/app'
 }

@@ -3,6 +3,7 @@ import styled from "styled-components";
 //TODO change hashrouter for browserrouter and find a way to deploy spa on gh-pages
 import { HashRouter as Router, Switch, Route } from "react-router-dom";
 import { CharacterCreatorPage } from "./pages/CharacterCreatorPage/CharacterCreatorPage";
+import { HomePage } from "./pages/HomePage/HomePage";
 
 const AppWrapper = styled.div`
   display: flex;
@@ -27,7 +28,7 @@ const App: React.FC = () => {
             <CharacterCreatorPage />
             </Route>
             <Route path="/">
-              <></>
+              <HomePage/>
             </Route>
           </Switch>
         </Router>

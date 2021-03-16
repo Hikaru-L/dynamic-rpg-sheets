@@ -1,11 +1,13 @@
 import { DicePool, Dice } from "../Dice"
 
 export class COCInvestigator {
+  id: string
   info: InvestigatorBaseInfo
   stats: InvestigatorStats
   skills: InvestigatorSkills
 
   constructor() {
+    this.id = new Date().getTime().toString()
     this.info = {
       name: '',
       occupation: '',
