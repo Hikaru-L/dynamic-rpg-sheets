@@ -15,6 +15,9 @@ import { theme } from "../../config/theme";
 import styled from "styled-components";
 import { TypographyVariant } from "../../utils/TypographyVariant";
 import { signUp, login } from "../../service/endpoints/authEndpoints";
+import { getCOCSheets } from "../../service/endpoints/userEndpoints";
+import { SheetIdentifier } from "../../models/SheetIdentifier";
+import { Link } from "react-router-dom";
 
 const Wrapper = styled.div`
   display: flex;
@@ -26,8 +29,17 @@ const Wrapper = styled.div`
 
 export const ProfilePage: React.FC = () => {
   // ======================================= STATE VARIABLES =======================================
-
-  useEffect(() => {}, []);
+  const [isLoading, setIsLoading] = useState(false);
+  const [sheets, setSheets] = useState<SheetIdentifier[]>([]);
+  const handleGetSheets = async () => {
+    setIsLoading(true);
+    const sheets = await getCOCSheets();
+    setSheets(sheets || []);
+    setIsLoading(false);
+  };
+  useEffect(() => {
+    handleGetSheets();
+  }, []);
 
   return (
     <Wrapper>
@@ -35,18 +47,44 @@ export const ProfilePage: React.FC = () => {
         <Box display="flex" flex="1" flexDirection="column">
           <Box alignItems="center">
             <Typography variant={TypographyVariant.H1} color="textPrimary">
-              Characters
+              Your Characters
             </Typography>
           </Box>
-          <Box mt={6}>
-            <Button
-              variant="contained"
-              color="primary"
-            >
-              <Box m={1} width="200px">
-                CREATE CHARACTER
+          <Box
+            mt={6}
+            display="flex"
+            flexDirection="column"
+            alignItems="flex-start"
+          >
+            {sheets.length ? (
+              sheets.map((sheet: SheetIdentifier) => {
+                return (
+                  <Box mb={2}>
+                    <Button variant="contained" color="primary">
+                      <Box m={1} width="200px">
+                        {sheet.name}
+                      </Box>
+                    </Button>
+                  </Box>
+                );
+              })
+            ) : !isLoading ? (
+              <Box mb={2}>
+                <Typography variant={TypographyVariant.CAPTION} color="error">
+                  Seems you dont have any characters yet, click on the button
+                  below to get started!
+                </Typography>
               </Box>
-            </Button>
+            ) : (
+              <></>
+            )}
+            <Link to={"/create-character"} style={{ textDecoration: "none" }}>
+              <Button variant="contained" color="primary">
+                <Box m={1} width="200px">
+                  CREATE CHARACTER
+                </Box>
+              </Button>
+            </Link>
           </Box>
         </Box>
       </ThemeProvider>

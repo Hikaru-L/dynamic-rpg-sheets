@@ -5,6 +5,7 @@ import { HashRouter as Router, Switch, Route } from "react-router-dom";
 import { CharacterCreatorPage } from "./pages/CharacterCreatorPage/CharacterCreatorPage";
 import { HomePage } from "./pages/HomePage/HomePage";
 import { CookiesProvider } from 'react-cookie';
+import { ProfilePage } from "./pages/ProfilePage/ProfilePage";
 
 const AppWrapper = styled.div`
   display: flex;
@@ -28,6 +29,9 @@ const App: React.FC = () => {
             </Route>
             <Route path="/create-character">
             <CharacterCreatorPage />
+            </Route>
+            <Route path="/profile">
+              <ProfilePage/>
             </Route>
             <Route path="/">
               <HomePage/>

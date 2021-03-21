@@ -15,6 +15,8 @@ import { theme } from "../../config/theme";
 import styled from "styled-components";
 import { TypographyVariant } from "../../utils/TypographyVariant";
 import { signUp, login } from "../../service/endpoints/authEndpoints";
+import { useCookies } from "react-cookie";
+import { Redirect } from "react-router-dom";
 
 const Wrapper = styled.div`
   display: flex;
@@ -30,7 +32,9 @@ export const HomePage: React.FC = () => {
   const [isLoginDialogOpen, setIsLoginDialogOpen] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [cookies, setCookie] = useCookies(['auth'])
   const [errorMessage, setErrorMessage] = useState("");
+  const [shouldRedirectToProfile, setShouldRedirectToProfile] = useState(false)
   const handleCloseDialog = () => {
     setUsername("");
     setPassword("");
@@ -52,25 +56,27 @@ export const HomePage: React.FC = () => {
   const handleLogin = async () => {
     const response: boolean = await login(username, password);
     if (response) {
-      //redirect
+      setShouldRedirectToProfile(true)
     } else {
-      //show error message on modal
       setErrorMessage("Wrong username or password.");
     }
   };
   const handleSignup = async () => {
     const response: boolean = await signUp(username, password);
     if (response) {
-      //redirect
+      setShouldRedirectToProfile(true)
     } else {
-      //show error message on modal
       setErrorMessage(
         "Username already taken, please choose a different name."
       );
     }
   };
 
-  useEffect(() => {}, []);
+    useEffect(() => {
+      if(cookies.auth) {
+        setShouldRedirectToProfile(true)
+      }
+    }, [])
 
   return (
     <Wrapper>
@@ -197,7 +203,9 @@ export const HomePage: React.FC = () => {
             </DialogContent>
           </Box>
         </Dialog>
+        {shouldRedirectToProfile && <Redirect to={'/profile'}/>}
       </ThemeProvider>
+
     </Wrapper>
   );
 };

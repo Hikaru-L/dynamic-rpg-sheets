@@ -1,6 +1,5 @@
+import {SheetIdentifier} from '../../models/SheetIdentifier'
+
 export interface getCOCSheetsApiModel {
-  sheets: {
-    id: string
-    name: string
-  }[]
+  sheets: SheetIdentifier[]
 }

@@ -5,18 +5,18 @@ import { HttpMethod } from "../HTTPMethods";
 import { setCookie, getCookie } from "../../global/cookies";
 import { getCOCSheetsApiModel } from "../apiModels/getCOCSheetsApiModel";
 
-const fetcher = getAxiosInstance({baseURL: getBaseApiUrl(), headers: {auth: getCookie('auth')}})
+const fetcher = getAxiosInstance({baseURL: getBaseApiUrl(), headers: {token: getCookie('auth')}})
 
 export const getCOCSheets = async () => {
   try {
     const res = await fetcher.request({
       url: endpointRoutes.getCOCSheets,
       method: HttpMethod.GET,
-    }) as getCOCSheetsApiModel
-    
+    }) 
+    const body = res.data as getCOCSheetsApiModel
+    return body.sheets
   } catch (error) {
-      return false
+      return undefined
   }
-  return true
 }
 

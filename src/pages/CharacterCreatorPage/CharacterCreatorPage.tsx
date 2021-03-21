@@ -1,5 +1,5 @@
 import React, { useState, ChangeEvent, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Redirect } from "react-router-dom";
 import {
   Box,
   ThemeProvider,
@@ -83,6 +83,7 @@ export const CharacterCreatorPage: React.FC = () => {
   ] = useState(0);
   const [isErrorDialogOpen, setIsErrorDialogOpen] = useState(false);
   const [errorMessages, setErrorMessages] = useState<string[]>([]);
+  const [shouldRedirectToProfile, setShouldRedirectToProfile] = useState(false)
 
   // ======================================= SAVE CHARACTER FUNCTIONS =======================================
 
@@ -99,7 +100,7 @@ export const CharacterCreatorPage: React.FC = () => {
     });
   }, [baseStats, skills, occupation, specialStats]);
 
-  const onSaveCharacterClick = () => {
+  const onSaveCharacterClick = async () => {
     const latestErrorMessages: string[] = [];
     if (!character.info.birthplace) {
       latestErrorMessages.push("Fill a Birthplace");
@@ -139,7 +140,8 @@ export const CharacterCreatorPage: React.FC = () => {
 
     setErrorMessages(latestErrorMessages);
     if (latestErrorMessages.length === 0) {
-      saveInvestigator(character);
+      await saveInvestigator(character);
+      setShouldRedirectToProfile(true)
     } else {
       setIsErrorDialogOpen(true);
     }
@@ -339,6 +341,7 @@ export const CharacterCreatorPage: React.FC = () => {
             })}
           </DialogContent>
         </Dialog>
+        {shouldRedirectToProfile && <Redirect to={'/profile'}/>}
       </ThemeProvider>
     </Wrapper>
   );
