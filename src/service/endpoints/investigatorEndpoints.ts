@@ -3,8 +3,9 @@ import { getAxiosInstance } from "../getAxiosInstance";
 import { endpointRoutes } from "./endpointRoutes";
 import { getBaseApiUrl } from "../../config";
 import { HttpMethod } from "../HTTPMethods";
+import { getCookie } from "../../global/cookies";
 
-const fetcher = getAxiosInstance({baseURL: getBaseApiUrl()})
+const fetcher = getAxiosInstance({baseURL: getBaseApiUrl(), headers: {auth: getCookie('auth')}})
 
 export const saveInvestigator = async (investigator: COCInvestigator) => {
   await fetcher.request({

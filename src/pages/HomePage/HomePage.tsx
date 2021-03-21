@@ -14,6 +14,7 @@ import {
 import { theme } from "../../config/theme";
 import styled from "styled-components";
 import { TypographyVariant } from "../../utils/TypographyVariant";
+import { signUp, login } from "../../service/endpoints/authEndpoints";
 
 const Wrapper = styled.div`
   display: flex;
@@ -29,11 +30,13 @@ export const HomePage: React.FC = () => {
   const [isLoginDialogOpen, setIsLoginDialogOpen] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   const handleCloseDialog = () => {
     setUsername("");
     setPassword("");
     setIsSignupDialogOpen(false);
     setIsLoginDialogOpen(false);
+    setErrorMessage("");
   };
   const handleSetUsername = (
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -45,6 +48,26 @@ export const HomePage: React.FC = () => {
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     setPassword(event.target.value);
+  };
+  const handleLogin = async () => {
+    const response: boolean = await login(username, password);
+    if (response) {
+      //redirect
+    } else {
+      //show error message on modal
+      setErrorMessage("Wrong username or password.");
+    }
+  };
+  const handleSignup = async () => {
+    const response: boolean = await signUp(username, password);
+    if (response) {
+      //redirect
+    } else {
+      //show error message on modal
+      setErrorMessage(
+        "Username already taken, please choose a different name."
+      );
+    }
   };
 
   useEffect(() => {}, []);
@@ -112,12 +135,21 @@ export const HomePage: React.FC = () => {
                   style={{ width: "100%" }}
                 />
               </Box>
-              <Box mb={3} justifyContent="flex-end" display="flex">
-                <Button variant="contained" color="primary">
+              <Box mb={1} justifyContent="flex-end" display="flex">
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={handleSignup}
+                >
                   <Box m={1} width="auto">
                     CREATE ACCOUNT
                   </Box>
                 </Button>
+              </Box>
+              <Box mb={3}>
+                <Typography variant={TypographyVariant.CAPTION} color="error">
+                  {errorMessage}
+                </Typography>
               </Box>
             </DialogContent>
           </Box>
@@ -147,11 +179,20 @@ export const HomePage: React.FC = () => {
                 />
               </Box>
               <Box mb={3} justifyContent="flex-end" display="flex">
-                <Button variant="contained" color="primary">
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={handleLogin}
+                >
                   <Box m={1} width="auto">
                     LOGIN
                   </Box>
                 </Button>
+              </Box>
+              <Box mb={3}>
+                <Typography variant={TypographyVariant.CAPTION} color="error">
+                  {errorMessage}
+                </Typography>
               </Box>
             </DialogContent>
           </Box>

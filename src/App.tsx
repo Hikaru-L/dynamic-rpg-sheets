@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { HashRouter as Router, Switch, Route } from "react-router-dom";
 import { CharacterCreatorPage } from "./pages/CharacterCreatorPage/CharacterCreatorPage";
 import { HomePage } from "./pages/HomePage/HomePage";
+import { CookiesProvider } from 'react-cookie';
 
 const AppWrapper = styled.div`
   display: flex;
@@ -17,6 +18,7 @@ const App: React.FC = () => {
     <div className="App">
       <header>
       <AppWrapper>
+        <CookiesProvider>
         <Router>
           {/* A <Switch> looks through its children <Route>s and
             renders the first one that matches the current URL. */}
@@ -32,6 +34,7 @@ const App: React.FC = () => {
             </Route>
           </Switch>
         </Router>
+        </CookiesProvider>
       </AppWrapper>
       </header>
     </div>
