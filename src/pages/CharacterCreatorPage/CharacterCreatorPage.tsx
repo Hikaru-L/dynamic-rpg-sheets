@@ -32,6 +32,7 @@ import {
 } from "../../models/COCInvestigator/InvestigatorOccupations";
 import { CharacterSkills } from "./CharacterSkills";
 import { saveInvestigator } from "../../service/endpoints/investigatorEndpoints";
+import FullScreenLoader from "../../components/FullScreenLoader";
 
 const Wrapper = styled.div`
   display: flex;
@@ -84,6 +85,7 @@ export const CharacterCreatorPage: React.FC = () => {
   const [isErrorDialogOpen, setIsErrorDialogOpen] = useState(false);
   const [errorMessages, setErrorMessages] = useState<string[]>([]);
   const [shouldRedirectToProfile, setShouldRedirectToProfile] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
 
   // ======================================= SAVE CHARACTER FUNCTIONS =======================================
 
@@ -101,6 +103,7 @@ export const CharacterCreatorPage: React.FC = () => {
   }, [baseStats, skills, occupation, specialStats]);
 
   const onSaveCharacterClick = async () => {
+    setIsLoading(true)
     const latestErrorMessages: string[] = [];
     if (!character.info.birthplace) {
       latestErrorMessages.push("Fill a Birthplace");
@@ -145,6 +148,7 @@ export const CharacterCreatorPage: React.FC = () => {
     } else {
       setIsErrorDialogOpen(true);
     }
+    setIsLoading(false)
   };
 
   // ======================================= AUTOMATIC CALCULATIONS =======================================
@@ -342,6 +346,7 @@ export const CharacterCreatorPage: React.FC = () => {
           </DialogContent>
         </Dialog>
         {shouldRedirectToProfile && <Redirect to={'/profile'}/>}
+        <FullScreenLoader isLoading={isLoading}/>
       </ThemeProvider>
     </Wrapper>
   );

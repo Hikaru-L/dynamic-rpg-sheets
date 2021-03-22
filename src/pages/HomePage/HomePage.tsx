@@ -17,6 +17,7 @@ import { TypographyVariant } from "../../utils/TypographyVariant";
 import { signUp, login } from "../../service/endpoints/authEndpoints";
 import { useCookies } from "react-cookie";
 import { Redirect } from "react-router-dom";
+import FullScreenLoader from "../../components/FullScreenLoader";
 
 const Wrapper = styled.div`
   display: flex;
@@ -35,6 +36,7 @@ export const HomePage: React.FC = () => {
   const [cookies, setCookie] = useCookies(['auth'])
   const [errorMessage, setErrorMessage] = useState("");
   const [shouldRedirectToProfile, setShouldRedirectToProfile] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
   const handleCloseDialog = () => {
     setUsername("");
     setPassword("");
@@ -54,18 +56,22 @@ export const HomePage: React.FC = () => {
     setPassword(event.target.value);
   };
   const handleLogin = async () => {
+    setIsLoading(true)
     const response: boolean = await login(username, password);
     if (response) {
       setShouldRedirectToProfile(true)
     } else {
+      setIsLoading(false)
       setErrorMessage("Wrong username or password.");
     }
   };
   const handleSignup = async () => {
+    setIsLoading(true)
     const response: boolean = await signUp(username, password);
     if (response) {
       setShouldRedirectToProfile(true)
     } else {
+      setIsLoading(false)
       setErrorMessage(
         "Username already taken, please choose a different name."
       );
@@ -204,8 +210,8 @@ export const HomePage: React.FC = () => {
           </Box>
         </Dialog>
         {shouldRedirectToProfile && <Redirect to={'/profile'}/>}
+        <FullScreenLoader isLoading={isLoading}/>
       </ThemeProvider>
-
     </Wrapper>
   );
 };
