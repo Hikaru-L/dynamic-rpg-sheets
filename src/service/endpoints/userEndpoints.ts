@@ -16,6 +16,7 @@ export const getCOCSheets = async () => {
     const body = res.data as getCOCSheetsApiModel
     return body.sheets
   } catch (error) {
+    console.log('ERROR GETTING CTHULHU SHEETS', error)
       return undefined
   }
 }

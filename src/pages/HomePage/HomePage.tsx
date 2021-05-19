@@ -82,7 +82,7 @@ export const HomePage: React.FC = () => {
       if(cookies.auth) {
         setShouldRedirectToProfile(true)
       }
-    }, [])
+    }, [cookies.auth])
 
   return (
     <Wrapper>

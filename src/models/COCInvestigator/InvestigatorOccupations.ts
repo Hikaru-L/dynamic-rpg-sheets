@@ -34,7 +34,7 @@ export interface InvestigatorOccupation {
 }
 
 // TODO separate types of pilot, driver, laborer, photographer
-// TODO make two endpoints: one for fetching all occupation names and one for getting a specific occupation
+// TODO make two endpoints: one for fetching all occupation names and one for getting a specific occupation and move this to backend
 export const occupationNames: string[] = [
   'Accountant',
   'Acrobat',

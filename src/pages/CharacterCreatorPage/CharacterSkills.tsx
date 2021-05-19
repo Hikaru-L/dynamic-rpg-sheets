@@ -94,8 +94,6 @@ export const CharacterSkills: React.FC<CharacterOccupationAndSkillsProps> = ({
   const classes = useStyles();
 
   // ======================================== SKILL POINTS LOGIC ========================================
-  //TODO only let save if credit rating meets basic occupation requirements
-
   //TODO fix logic here, theres some weird shenanigans going on
   const handleChangeSkill = (skillName: string) => (
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>

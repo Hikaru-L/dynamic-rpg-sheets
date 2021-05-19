@@ -17,7 +17,9 @@ import { TypographyVariant } from "../../utils/TypographyVariant";
 import { signUp, login } from "../../service/endpoints/authEndpoints";
 import { getCOCSheets } from "../../service/endpoints/userEndpoints";
 import { SheetIdentifier } from "../../models/SheetIdentifier";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
+import { useCookies } from "react-cookie";
+import FullScreenLoader from "../../components/FullScreenLoader";
 
 const Wrapper = styled.div`
   display: flex;
@@ -30,6 +32,8 @@ const Wrapper = styled.div`
 export const ProfilePage: React.FC = () => {
   // ======================================= STATE VARIABLES =======================================
   const [isLoading, setIsLoading] = useState(false);
+  const [shouldRedirectToHome, setShouldRedirectToHome] = useState(false)
+  const [cookies, setCookie] = useCookies(['auth'])
   const [sheets, setSheets] = useState<SheetIdentifier[]>([]);
   const handleGetSheets = async () => {
     setIsLoading(true);
@@ -40,6 +44,10 @@ export const ProfilePage: React.FC = () => {
   useEffect(() => {
     handleGetSheets();
   }, []);
+  const logout = async () => {
+    setCookie('auth', '')
+    setShouldRedirectToHome(true)
+  }
 
   return (
     <Wrapper>
@@ -85,8 +93,17 @@ export const ProfilePage: React.FC = () => {
                 </Box>
               </Button>
             </Link>
+            <Box mt={2}>
+            <Button variant="contained" color="primary" onClick={logout}>
+                <Box m={1} width="200px">
+                  LOGOUT
+                </Box>
+              </Button>
+              {shouldRedirectToHome && <Redirect to={'/'}/>}
+            </Box>
           </Box>
         </Box>
+        <FullScreenLoader isLoading={isLoading}/>
       </ThemeProvider>
     </Wrapper>
   );
