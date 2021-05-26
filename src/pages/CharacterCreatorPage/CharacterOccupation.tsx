@@ -1,18 +1,11 @@
 import React, { ChangeEvent } from "react";
-import {
-  Box,
-  TextField,
-  Typography,
-  MenuItem,
-} from "@material-ui/core";
+import { Box, TextField, Typography, MenuItem } from "@material-ui/core";
 import { TypographyVariant } from "../../utils/TypographyVariant";
 import {
   occupationNames,
   InvestigatorOccupation,
 } from "../../models/COCInvestigator/InvestigatorOccupations";
-import {
-  InvestigatorSkillTypeNames,
-} from "../../models/COCInvestigator/InvestigatorSkills";
+import { InvestigatorSkillTypeNames } from "../../models/COCInvestigator/InvestigatorSkills";
 import { theme } from "../../config/theme";
 
 export interface CharacterOccupationProps {
@@ -73,7 +66,6 @@ export const CharacterOccupation: React.FC<CharacterOccupationProps> = ({
   occupation,
   setOccupation,
 }) => {
-
   return (
     <Box
       height="100%"
@@ -83,7 +75,9 @@ export const CharacterOccupation: React.FC<CharacterOccupationProps> = ({
       justifyContent="space-between"
     >
       <Box display="flex" flexDirection="column">
-        <Typography variant={TypographyVariant.H4} color="textPrimary">{"Occupation"}</Typography>
+        <Typography variant={TypographyVariant.H4} color="textPrimary">
+          {"Occupation"}
+        </Typography>
         <Box
           display="flex"
           flexDirection="column"
@@ -120,7 +114,10 @@ export const CharacterOccupation: React.FC<CharacterOccupationProps> = ({
           </Box>
           <Box display="flex" mt={2}>
             <Box display="flex" flexDirection="column" flex={1} mr={2}>
-              <Typography variant={TypographyVariant.OVERLINE} color="textSecondary">
+              <Typography
+                variant={TypographyVariant.OVERLINE}
+                color="textSecondary"
+              >
                 {"Description"}
               </Typography>
               <Box
@@ -130,14 +127,20 @@ export const CharacterOccupation: React.FC<CharacterOccupationProps> = ({
                 border={`1px solid rgb(118, 118, 118)`}
                 padding="8px"
               >
-                <Typography variant={TypographyVariant.BODY2} color="textPrimary">
+                <Typography
+                  variant={TypographyVariant.BODY2}
+                  color="textPrimary"
+                >
                   {occupation?.description}
                 </Typography>
               </Box>
             </Box>
             <Box display="flex" flexDirection="column" flex={1} mr={2}>
               <Box display="flex" flexDirection="column">
-                <Typography variant={TypographyVariant.OVERLINE} color="textSecondary">
+                <Typography
+                  variant={TypographyVariant.OVERLINE}
+                  color="textSecondary"
+                >
                   {"Occupation skill points"}
                 </Typography>
                 <Box
@@ -148,7 +151,10 @@ export const CharacterOccupation: React.FC<CharacterOccupationProps> = ({
                   padding="8px"
                   mb={1}
                 >
-                  <Typography variant={TypographyVariant.BODY2} color="textPrimary">
+                  <Typography
+                    variant={TypographyVariant.BODY2}
+                    color="textPrimary"
+                  >
                     {occupation
                       ? getOccupationSkillPointsString(occupation)
                       : ""}
@@ -156,7 +162,10 @@ export const CharacterOccupation: React.FC<CharacterOccupationProps> = ({
                 </Box>
               </Box>
               <Box display="flex" flexDirection="column">
-                <Typography variant={TypographyVariant.OVERLINE} color="textSecondary">
+                <Typography
+                  variant={TypographyVariant.OVERLINE}
+                  color="textSecondary"
+                >
                   {"Credit Rating"}
                 </Typography>
                 <Box
@@ -166,7 +175,10 @@ export const CharacterOccupation: React.FC<CharacterOccupationProps> = ({
                   border={`1px solid rgb(118, 118, 118)`}
                   padding="8px"
                 >
-                  <Typography variant={TypographyVariant.BODY2} color="textPrimary">
+                  <Typography
+                    variant={TypographyVariant.BODY2}
+                    color="textPrimary"
+                  >
                     {`min: ${occupation?.creditRating.min} max: ${occupation?.creditRating.max}`}
                   </Typography>
                 </Box>
@@ -174,7 +186,10 @@ export const CharacterOccupation: React.FC<CharacterOccupationProps> = ({
             </Box>
             <Box display="flex" flexDirection="column" flex={1}>
               <Box display="flex" flexDirection="column">
-                <Typography variant={TypographyVariant.OVERLINE} color="textSecondary">
+                <Typography
+                  variant={TypographyVariant.OVERLINE}
+                  color="textSecondary"
+                >
                   {"Suggested Contacts"}
                 </Typography>
                 <Box
@@ -185,13 +200,19 @@ export const CharacterOccupation: React.FC<CharacterOccupationProps> = ({
                   padding="8px"
                   mb={1}
                 >
-                  <Typography variant={TypographyVariant.BODY2} color="textPrimary">
+                  <Typography
+                    variant={TypographyVariant.BODY2}
+                    color="textPrimary"
+                  >
                     {occupation?.suggestedContacts.join(", ")}
                   </Typography>
                 </Box>
               </Box>
               <Box display="flex" flexDirection="column">
-                <Typography variant={TypographyVariant.OVERLINE} color="textSecondary">
+                <Typography
+                  variant={TypographyVariant.OVERLINE}
+                  color="textSecondary"
+                >
                   {"Available Skills"}
                 </Typography>
                 <Box
@@ -201,7 +222,10 @@ export const CharacterOccupation: React.FC<CharacterOccupationProps> = ({
                   border={`1px solid rgb(118, 118, 118)`}
                   padding="8px"
                 >
-                  <Typography variant={TypographyVariant.BODY2} color="textPrimary">
+                  <Typography
+                    variant={TypographyVariant.BODY2}
+                    color="textPrimary"
+                  >
                     {occupation ? getOccupationSkillsString(occupation) : ""}
                   </Typography>
                 </Box>
